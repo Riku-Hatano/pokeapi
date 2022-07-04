@@ -1,0 +1,122 @@
+package main
+
+import (
+	"fmt"
+	"html/template"
+	"net/http"
+	"strconv"
+
+	"github.com/labstack/echo/v4/middleware"
+
+	"github.com/labstack/echo/v4"
+)
+
+type User struct {
+	Id    string `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
+
+type Age struct {
+	Id   int  `json:"id"`
+	User User `json:"user"`
+}
+
+var users []User
+
+func main() {
+	users = append(users, User{Id: "1", Name: "riku", Email: "riku.kuri1234@"})
+	users = append(users, User{Id: "2", Name: "lu", Email: "lutianye89@"})
+	e := echo.New()
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	e.GET("/", mainHandler)
+	e.POST("/post", post)
+	e.GET("/delete/:id", deleteByHTML)
+	//htmlはDELETE使えない？e.DELETEではなくe.GETにしたら動いた
+	e.DELETE("/delete/:id", delete)
+	e.GET("/get", show)
+	e.Logger.Fatal(e.Start(":1323")) //e.loggerがe.post,e.getより先に書かれているとmessage not foundとなる。なぜか。
+}
+
+//ハンドラーを定義
+
+func mainHandler(c echo.Context) error {
+	t, err := template.ParseFiles("main.html")
+	if err != nil {
+		panic(err.Error())
+	}
+	if err := t.Execute(c.Response(), users); err != nil {
+		panic(err.Error())
+	}
+	return c.String(http.StatusOK, "")
+}
+
+// func (t *Template) ParseFiles(filenames ...string) (*Template, error)
+// func (t *Template) Execute(wr io.Writer, data interface{}) error
+func show(c echo.Context) error {
+	u := new(User)
+	if err := c.Bind(u); err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, users)
+}
+func post(c echo.Context) error {
+	var u User
+	//htmlからのPOST
+	name := c.FormValue("name")
+	email := c.FormValue("email")
+	if err := c.Bind(&u); err != nil {
+		// error handling
+	}
+	if name != "" && email != "" {
+		fmt.Println("done")
+		u.Name = name
+		u.Email = email
+	}
+	//curlからのPOST
+	userId := len(users) + 1
+	u.Id = strconv.Itoa(userId)
+	users = append(users, u)
+	fmt.Println(users)
+	fmt.Println("name: ", u.Name, "email: ", u.Email)
+	fmt.Println(name, email)
+	return c.JSON(http.StatusOK, u)
+}
+func deleteByHTML(c echo.Context) error {
+	//htmlからのDELETE
+	id := c.FormValue("id")
+	for index, item := range users {
+		if item.Id == id {
+			fmt.Println("done by html", id)
+			users = append(users[:index], users[index+1:]...)
+			break
+		}
+	}
+	return c.JSON(http.StatusOK, users)
+
+}
+func delete(c echo.Context) error {
+	fmt.Println("done")
+	//htmlからのDELETE
+	id := c.FormValue("id")
+	for index, item := range users {
+		if item.Id == id {
+			fmt.Println("done by html of delete", id)
+			users = append(users[:index], users[index+1:]...)
+			break
+		}
+	}
+	//curlからのDELETE
+	params := c.Param("id")
+	for index, item := range users {
+		//"delete/:idなのに、なぜcurlでは:をつけずにidを指定してdeleteしなければならないのか
+		if item.Id == params {
+			fmt.Println("done by curl")
+			users = append(users[:index], users[index+1:]...)
+			break
+		}
+	}
+	return c.JSON(http.StatusOK, users)
+}
