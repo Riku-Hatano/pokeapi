@@ -43,6 +43,7 @@ var statuses []Status
 var html string
 
 func showPokemon(c echo.Context) error {
+	fmt.Println("done by feature/addApi3")
 	fmt.Println("done again and again2")
 	fmt.Println("done again and again")
 	fmt.Println("done again")
