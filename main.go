@@ -43,6 +43,7 @@ var statuses []Status
 var html string
 
 func showPokemon(c echo.Context) error {
+	fmt.Println("done")
 	var p Status
 	if err := c.Bind(&p); err != nil {
 	}
@@ -62,7 +63,7 @@ func showPokemon(c echo.Context) error {
 	// buf := bytes.NewBuffer(body)
 	// html := buf.String()
 
-	var statuses []Status
+	var statuses Response
 
 	if err := json.Unmarshal(body, &statuses); err != nil {
 		fmt.Println("aaaa")
