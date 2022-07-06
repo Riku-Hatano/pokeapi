@@ -27,69 +27,12 @@ func main() {
 type Status struct {
 	Name string `json: "name"`
 	Url  string `json: "url"`
-	// Previous string `json: "previous"`
-	// Results  []string `json: "results"`
-}
-type Response struct {
-	Results []Status `json: "results"`
 }
 
 var statuses []Status
 
-// func showPokemon(c echo.Context) error {
-// 	fmt.Println("done by pokemon")
-// 	return c.JSON(http.StatusOK, users)
-// }
 var html string
 
-func showPokemon(c echo.Context) error {
-	fmt.Println("done by feature/addApi3")
-	fmt.Println("done again and again2")
-	fmt.Println("done again and again")
-	fmt.Println("done again")
-	fmt.Println("done")
-	var p Status
-	if err := c.Bind(&p); err != nil {
-	}
-	url := "https://pokeapi.co/api/v2/pokemon"
-	res, err := http.Get(url)
-	if err != nil {
-		panic(err)
-	}
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		panic(err)
-	}
-
-	defer res.Body.Close()
-
-	////////////////////////////
-	// buf := bytes.NewBuffer(body)
-	// html := buf.String()
-
-	var statuses Response
-
-	if err := json.Unmarshal(body, &statuses); err != nil {
-		fmt.Println("aaaa")
-		panic(err)
-	}
-	// decoded, err := json.Marshal(html)
-	// decodedAgain, err := json.Unmarshal(string(decoded))
-
-	// s, err := json.Marshal(html)
-	// ss := bytes.NewBuffer(s)
-	// sss := ss.String()
-	fmt.Println(p)
-	return c.JSON(http.StatusOK, statuses)
-	////////////////////////////
-	// returnValue, err := json.Marshal(body)
-
-	// s := []byte(html)
-	// if err := json.Unmarshal(s, &p); err != nil {
-	// 	panic(err)
-	// }
-	// fmt.Printf("%+\n", p)
-}
 func after(c echo.Context) error {
 	fmt.Println(html)
 	return c.JSON(http.StatusOK, html)
@@ -125,4 +68,50 @@ func getPokemon(c echo.Context) error {
 		fmt.Println(p.Name, p.Url)
 	}
 	return c.JSON(http.StatusOK, statuses)
+}
+
+/////////////////////////////////////////////
+func showPokemon(c echo.Context) error {
+	url := "https://pokeapi.co/api/v2/pokemon"
+	url2 := "https://pokeapi.co/api/v2/pokemon?offset=20\u0026limit=20"
+	res, err := http.Get(url)
+	if err != nil {
+		panic(err)
+	}
+	res2, err := http.Get(url2)
+	if err != nil {
+		panic(err)
+	}
+	body, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		panic(err)
+	}
+	body2, err := ioutil.ReadAll(res2.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	defer res.Body.Close()
+	defer res2.Body.Close()
+	var response Response
+	var response2 Response
+	var responses []Response
+	if err := json.Unmarshal(body, &response); err != nil {
+		panic(err)
+	}
+	if err := json.Unmarshal(body2, &response2); err != nil {
+		panic(err)
+	}
+	responses = append(responses, response, response2)
+	return c.JSON(http.StatusOK, responses)
+}
+
+type Response struct {
+	Count    int         `json:"count"`
+	Next     string      `json:"next"`
+	Previous interface{} `json:"previous"`
+	Results  []struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"results"`
 }
