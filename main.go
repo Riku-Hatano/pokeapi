@@ -74,6 +74,7 @@ func getPokemon(c echo.Context) error {
 func showPokemon(c echo.Context) error {
 	url := "https://pokeapi.co/api/v2/pokemon"
 	url2 := "https://pokeapi.co/api/v2/pokemon?offset=20\u0026limit=20"
+	//以下他のapiから情報を持ってきてデータをjson形式に加工（もし情報を取ってくる先のurlの数が増えたら、その分だけ行数が増える）
 	res, err := http.Get(url)
 	if err != nil {
 		panic(err)
@@ -90,12 +91,12 @@ func showPokemon(c echo.Context) error {
 	if err != nil {
 		panic(err)
 	}
-
 	defer res.Body.Close()
 	defer res2.Body.Close()
-	var response Response
-	var response2 Response
+
+	var response, response2 Response
 	var responses []Response
+
 	if err := json.Unmarshal(body, &response); err != nil {
 		panic(err)
 	}
@@ -103,7 +104,17 @@ func showPokemon(c echo.Context) error {
 		panic(err)
 	}
 	responses = append(responses, response, response2)
-	return c.JSON(http.StatusOK, responses)
+	var pokemons []Pokemons
+	for i := 0; i <= 1; i++ {
+		for j := 0; j < 20; j++ {
+			pokemons = append(pokemons, Pokemons{Name: responses[i].Results[j].Name, Url: responses[i].Results[j].URL})
+			// pokemons = append(pokemons, Response{Results.Resultsname: responses[i].Results[j].Name, URL: responses[i].Results[j].URL})
+		}
+	}
+	// return c.JSON(http.StatusOK, responses)
+	// return c.JSON(http.StatusOK, response.Results)
+	// return c.JSON(http.StatusOK, responses[0].Results)
+	return c.JSON(http.StatusOK, pokemons)
 }
 
 type Response struct {
@@ -115,3 +126,9 @@ type Response struct {
 		URL  string `json:"url"`
 	} `json:"results"`
 }
+type Pokemons struct {
+	Name string `json: "name"`
+	Url  string `json: "url"`
+}
+
+//今できていること。。複数のapiからデータを持ってきてひとつのページに表示
