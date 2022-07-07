@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4/middleware"
 
@@ -16,7 +18,8 @@ func main() {
 	e.Use(middleware.Recover())
 
 	e.GET("/", showPokemon)
-	e.GET("/getdatum", showDatum)
+	e.GET("/getdatumByName", showDatumByName)
+	e.GET("/getdatumById", showDatumById)
 	e.Logger.Fatal(e.Start(":1323")) //e.loggerがe.post,e.getより先に書かれているとmessage not foundとなる。なぜか。
 }
 
@@ -81,7 +84,7 @@ func showPokemon(c echo.Context) error {
 	return c.JSON(http.StatusOK, pokemons)
 }
 
-func showDatum(c echo.Context) error {
+func showDatumByName(c echo.Context) error {
 	name := c.FormValue("name")
 	for i := 0; i <= 40; i++ {
 		if name == pokemons[i].Name {
@@ -89,6 +92,18 @@ func showDatum(c echo.Context) error {
 		}
 	}
 	return c.JSON(http.StatusOK, "missing name")
+}
+func showDatumById(c echo.Context) error {
+	fmt.Println("done")
+	name, _ := strconv.Atoi(c.FormValue("number"))
+	for i := 0; i < 40; i++ {
+		fmt.Println("name: ", name)
+		fmt.Println("pokemons[i].Id: ", pokemons[i].Id)
+		if name == pokemons[i].Id {
+			return c.JSON(http.StatusOK, pokemons[i].Name)
+		}
+	}
+	return c.JSON(http.StatusOK, "missing id")
 }
 
 //今できていること。。ポケモンの名前をhtmlページから検索してidを返す
