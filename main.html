@@ -4,9 +4,14 @@
         <title>go web programming of GET</title>
     </head>
     <body>
-        <form action="http://127.0.0.1:1323/getdatum" method="get" enctype="application/x-www-form-urlencoded">
-            enter Pokemon name
+        <form action="http://127.0.0.1:1323/getdatumByName" method="get" enctype="application/x-www-form-urlencoded">
+            ポケモンの名前（英語）
             <input type="text" name="name">
+            <input type="submit">
+        </form>
+        <form action="http://127.0.0.1:1323/getdatumById" method="get" enctype="application/x-www-form-urlencoded">
+            図鑑No.
+            <input type="text" name="number">
             <input type="submit">
         </form>
     </body>
