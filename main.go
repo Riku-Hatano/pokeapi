@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -132,7 +131,7 @@ func showPokemon(c echo.Context) error {
 
 func showDatumByName(c echo.Context) error {
 	name := c.FormValue("name")
-	for i := 0; i <= 40; i++ {
+	for i := 0; i <= 1140; i++ {
 		if name == pokemons[i].Name {
 			return c.JSON(http.StatusOK, pokemons[i].Id)
 		}
@@ -140,16 +139,16 @@ func showDatumByName(c echo.Context) error {
 	return c.JSON(http.StatusOK, "missing name")
 }
 func showDatumById(c echo.Context) error {
-	fmt.Println("done")
 	name, _ := strconv.Atoi(c.FormValue("number"))
-	for i := 0; i < 40; i++ {
-		fmt.Println("name: ", name)
-		fmt.Println("pokemons[i].Id: ", pokemons[i].Id)
+	for i := 0; i < 1140; i++ {
+		// fmt.Println("name: ", name)
+		// fmt.Println("pokemons[i].Id: ", pokemons[i].Id)
 		if name == pokemons[i].Id {
-			return c.JSON(http.StatusOK, pokemons[i].Name)
+			var returns []string
+			returns = append(returns, pokemons[i].Name, pokemons[i].Url)
+			return c.JSON(http.StatusOK, returns)
+			// return c.JSON(http.StatusOK, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"+strconv.Itoa(i)+".png")
 		}
 	}
 	return c.JSON(http.StatusOK, "missing id")
 }
-
-//今できていること。。ポケモンの名前をhtmlページから検索してidを返す
