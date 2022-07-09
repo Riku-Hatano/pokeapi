@@ -1,10 +1,16 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"fmt"
+	"image/png"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo/v4/middleware"
 
@@ -88,47 +94,6 @@ func showPokemon(c echo.Context) error {
 	return c.JSON(http.StatusOK, pokemons)
 }
 
-// func showPokemon(c echo.Context) error {
-// 	url := "https://pokeapi.co/api/v2/pokemon"
-// 	url2 := "https://pokeapi.co/api/v2/pokemon?offset=20\u0026limit=20"
-// 	//以下他のapiから情報を持ってきてデータをjson形式に加工（もし情報を取ってくる先のurlの数が増えたら、その分だけ行数が増える）
-// 	res, err := http.Get(url)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	res2, err := http.Get(url2)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	body, err := ioutil.ReadAll(res.Body)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	body2, err := ioutil.ReadAll(res2.Body)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	defer res.Body.Close()
-// 	defer res2.Body.Close()
-
-// 	var response, response2 Response
-// 	var responses []Response
-
-// 	if err := json.Unmarshal(body, &response); err != nil {
-// 		panic(err)
-// 	}
-// 	if err := json.Unmarshal(body2, &response2); err != nil {
-// 		panic(err)
-// 	}
-// 	responses = append(responses, response, response2)
-// 	for i := 0; i <= 1; i++ {
-// 		for j := 0; j < 20; j++ {
-// 			pokemons = append(pokemons, Pokemons{Name: responses[i].Results[j].Name, Url: responses[i].Results[j].URL, Id: i*20 + j + 1})
-// 		}
-// 	}
-// 	return c.JSON(http.StatusOK, pokemons)
-// }
-
 func showDatumByName(c echo.Context) error {
 	name := c.FormValue("name")
 	for i := 0; i <= 1140; i++ {
@@ -138,16 +103,46 @@ func showDatumByName(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, "missing name")
 }
+
+var img []byte
+var img2 string
+
+func gopherPNG() io.Reader {
+	return base64.NewDecoder(base64.StdEncoding, strings.NewReader(string(img)))
+}
 func showDatumById(c echo.Context) error {
 	name, _ := strconv.Atoi(c.FormValue("number"))
 	for i := 0; i < 1140; i++ {
-		// fmt.Println("name: ", name)
-		// fmt.Println("pokemons[i].Id: ", pokemons[i].Id)
 		if name == pokemons[i].Id {
 			var returns []string
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url)
-			return c.JSON(http.StatusOK, returns)
-			// return c.JSON(http.StatusOK, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"+strconv.Itoa(i)+".png")
+			////////////////////
+			//以下画像を表示させるための処理
+			////////////////////////
+			j, err := http.Get("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/1.png")
+			if err != nil {
+				panic(err)
+			}
+			img, _ = ioutil.ReadAll(j.Body)
+			file, err := os.Create("sample.png")
+			if err != nil {
+				panic(err)
+			}
+			defer file.Close()
+			file.Write(img)
+			p, err := os.Open("sample.png")
+			if err != nil {
+				panic(err)
+			}
+			defer p.Close()
+			imgg, err := png.Decode(p)
+			if err != nil {
+				panic(err)
+			}
+			fmt.Println(imgg)
+
+			defer j.Body.Close()
+			return c.JSON(http.StatusOK, imgg)
 		}
 	}
 	return c.JSON(http.StatusOK, "missing id")
