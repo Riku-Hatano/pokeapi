@@ -3,12 +3,9 @@ package main
 import (
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
-	"image/png"
 	"io"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strconv"
 	"strings"
 
@@ -110,39 +107,49 @@ var img2 string
 func gopherPNG() io.Reader {
 	return base64.NewDecoder(base64.StdEncoding, strings.NewReader(string(img)))
 }
+
 func showDatumById(c echo.Context) error {
 	name, _ := strconv.Atoi(c.FormValue("number"))
 	for i := 0; i < 1140; i++ {
 		if name == pokemons[i].Id {
 			var returns []string
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url)
-			////////////////////
-			//以下画像を表示させるための処理
-			////////////////////////
-			j, err := http.Get("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/1.png")
-			if err != nil {
-				panic(err)
-			}
-			img, _ = ioutil.ReadAll(j.Body)
-			file, err := os.Create("sample.png")
-			if err != nil {
-				panic(err)
-			}
-			defer file.Close()
-			file.Write(img)
-			p, err := os.Open("sample.png")
-			if err != nil {
-				panic(err)
-			}
-			defer p.Close()
-			imgg, err := png.Decode(p)
-			if err != nil {
-				panic(err)
-			}
-			fmt.Println(imgg)
+			// 			////////////////////
+			// 			//以下画像を表示させるための処理
+			// 			////////////////////////
+			// j, err := http.Get("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/800.png")
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// img, err := ioutil.ReadAll(j.Body)
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// file, err := os.Create("sample.png")
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// defer file.Close()
+			// file.Write(img)
 
-			defer j.Body.Close()
-			return c.JSON(http.StatusOK, imgg)
+			// p, err := os.Open("./sample.png")
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// fmt.Println(p)
+			// defer p.Close()
+			// imgg, err := png.Decode(p)
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// fmt.Println(imgg)
+
+			// defer j.Body.Close()
+
+			////////////////////////////////
+			//画像を表示させる処理終わり
+			/////////////////////////////////
+			return c.JSON(http.StatusOK, returns)
 		}
 	}
 	return c.JSON(http.StatusOK, "missing id")
