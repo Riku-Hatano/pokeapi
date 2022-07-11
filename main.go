@@ -1,10 +1,13 @@
 package main
 
 import (
+	"encoding/base64"
 	"encoding/json"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/labstack/echo/v4/middleware"
 
@@ -106,6 +109,14 @@ func showDatumByName(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, "missing name")
 }
+
+var img []byte
+var img2 string
+
+func gopherPNG() io.Reader {
+	return base64.NewDecoder(base64.StdEncoding, strings.NewReader(string(img)))
+}
+
 func showDatumById(c echo.Context) error {
 	name, _ := strconv.Atoi(c.FormValue("number"))
 	for i := 0; i < 1140; i++ {
@@ -126,9 +137,8 @@ func showDatumById(c echo.Context) error {
 			}
 			var returns []string
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url)
-			return c.JSON(http.StatusOK, stats)
-			// return c.JSON(http.StatusOK, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"+strconv.Itoa(i)+".png")
-		}
+
+}
 	}
 	return c.JSON(http.StatusOK, "missing id")
 }
