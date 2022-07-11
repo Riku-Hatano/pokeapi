@@ -24,6 +24,7 @@ func main() {
 
 //グローバル変数
 var pokemons []Pokemons
+var stats []Stats
 
 //typeたち
 type Response struct {
@@ -39,6 +40,14 @@ type Pokemons struct {
 	Name string `json: "name"`
 	Url  string `json: "url"`
 	Id   int    `json: "id"`
+}
+type Stats struct {
+	BaseStat int `json: "base_stat"`
+	Effort   int `json: "effort"`
+	Stat     []struct {
+		Name string `json: "name"`
+		Url  string `json: "url"`
+	} `json: "stat"`
 }
 
 //関数たち
@@ -88,47 +97,6 @@ func showPokemon(c echo.Context) error {
 	return c.JSON(http.StatusOK, pokemons)
 }
 
-// func showPokemon(c echo.Context) error {
-// 	url := "https://pokeapi.co/api/v2/pokemon"
-// 	url2 := "https://pokeapi.co/api/v2/pokemon?offset=20\u0026limit=20"
-// 	//以下他のapiから情報を持ってきてデータをjson形式に加工（もし情報を取ってくる先のurlの数が増えたら、その分だけ行数が増える）
-// 	res, err := http.Get(url)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	res2, err := http.Get(url2)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	body, err := ioutil.ReadAll(res.Body)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	body2, err := ioutil.ReadAll(res2.Body)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	defer res.Body.Close()
-// 	defer res2.Body.Close()
-
-// 	var response, response2 Response
-// 	var responses []Response
-
-// 	if err := json.Unmarshal(body, &response); err != nil {
-// 		panic(err)
-// 	}
-// 	if err := json.Unmarshal(body2, &response2); err != nil {
-// 		panic(err)
-// 	}
-// 	responses = append(responses, response, response2)
-// 	for i := 0; i <= 1; i++ {
-// 		for j := 0; j < 20; j++ {
-// 			pokemons = append(pokemons, Pokemons{Name: responses[i].Results[j].Name, Url: responses[i].Results[j].URL, Id: i*20 + j + 1})
-// 		}
-// 	}
-// 	return c.JSON(http.StatusOK, pokemons)
-// }
-
 func showDatumByName(c echo.Context) error {
 	name := c.FormValue("name")
 	for i := 0; i <= 1140; i++ {
@@ -141,12 +109,24 @@ func showDatumByName(c echo.Context) error {
 func showDatumById(c echo.Context) error {
 	name, _ := strconv.Atoi(c.FormValue("number"))
 	for i := 0; i < 1140; i++ {
-		// fmt.Println("name: ", name)
-		// fmt.Println("pokemons[i].Id: ", pokemons[i].Id)
 		if name == pokemons[i].Id {
+			url := "https://pokeapi.co/api/v2/pokemon/" + strconv.Itoa(i+1)
+			res, err := http.Get(url)
+			if err != nil {
+				panic(err)
+			}
+			var stats Stats
+			body2, err := ioutil.ReadAll(res.Body)
+			if err != nil {
+				panic(err)
+			}
+			defer res.Body.Close()
+			if err := json.Unmarshal(body2, &stats); err != nil {
+				panic(err)
+			}
 			var returns []string
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url)
-			return c.JSON(http.StatusOK, returns)
+			return c.JSON(http.StatusOK, stats)
 			// return c.JSON(http.StatusOK, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"+strconv.Itoa(i)+".png")
 		}
 	}
