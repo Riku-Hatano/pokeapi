@@ -1,13 +1,11 @@
 package main
 
 import (
-	"encoding/base64"
 	"encoding/json"
-	"io"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
-	"strings"
 
 	"github.com/labstack/echo/v4/middleware"
 
@@ -27,7 +25,7 @@ func main() {
 
 //グローバル変数
 var pokemons []Pokemons
-var stats []Stats
+var statses []ResponseStats
 
 //typeたち
 type Response struct {
@@ -40,17 +38,109 @@ type Response struct {
 	} `json:"results"`
 }
 type Pokemons struct {
-	Name string `json: "name"`
-	Url  string `json: "url"`
-	Id   int    `json: "id"`
+	Name string `json:"name"`
+	Url  string `json:"url"`
+	Id   int    `json:"id"`
 }
-type Stats struct {
-	BaseStat int `json: "base_stat"`
-	Effort   int `json: "effort"`
+
+// type ResponseStats struct {
+// 	Abilities []struct {
+// 		Aiblity []struct {
+// 			Name string `json:"name"`
+// 			Url  string `json:"url"`
+// 		} `json:"ability"`
+// 		IsHidden bool  `json:"is_hidden"`
+// 		Slot     []int `json:"slot"`
+// 	} `json:"abilities"`
+// 	BaseExperience int `json:"base_experience"`
+// 	Forms          []struct {
+// 		Name string `json:"name"`
+// 		Url  string `json:"url"`
+// 	} `json:"forms"`
+// 	GameIndices []struct {
+// 		GameIndex int `json:"game_index"`
+// 		Version   []struct {
+// 			Name string `json:"name"`
+// 			Url  string `json:"url"`
+// 		} `json:"version"`
+// 	} `json:"game_index"`
+// 	Height    int `json:"height"`
+// 	HeldItems []struct {
+// 		Item []struct {
+// 			Name string `json:"name"`
+// 			Url  string `json:"url"`
+// 		} `json:"item"`
+// 		VersionDetails []*[]struct {
+// 			Rarity  int `json:"rarity"`
+// 			Version []struct {
+// 				Name string `json:"name"`
+// 				Url  string `json:"url"`
+// 			} `json:"version"`
+// 		} `json:"version_details"`
+// 	}
+// 	Id                     int    `json:"id"`
+// 	IsDefault              bool   `json:"is_default"`
+// 	LocationAreaEncounters string `json:"location_area_encounters"`
+// 	Moves                  []struct {
+// 		Move []struct {
+// 			Name string `json:"name"`
+// 			Url  string `json:"url"`
+// 		} `json:"move"`
+// 		VersionGroupDetails []*[]struct {
+// 			LevelLearnedAt  int `json:"level_learned_at"`
+// 			MoveLearnMethod []struct {
+// 				Name string `json:"name"`
+// 				Url  string `json:"url"`
+// 			} `json:"move_learn_method"`
+// 			VersionGroup []struct {
+// 				Name string `json:"name"`
+// 				Url  string `json:"url"`
+// 			} `json:"version_group"`
+// 		} `json:"version_group_details"`
+// 	} `json:"moves"`
+// 	Name      string   `json:"name"`
+// 	Order     int      `json:"order"`
+// 	PastTypes []string `json:"past_types"`
+// 	Species   []struct {
+// 		Name string `json:"name"`
+// 		Url  string `json:"url"`
+// 	} `json:"species"`
+// 	Spirites interface{}
+// Stats    []struct {
+// 	BaseStat int `json:"base_stat"`
+// 	Effort   int `json:"effort"`
+// 	Stat     []struct {
+// 		Name string `json:"name"`
+// 		Url  string `json:"url"`
+// 	} `json:"stat"`
+// } `json:"stats"`
+// 	Types []struct {
+// 		Slot int `json:"slot"`
+// 		Type []struct {
+// 			Name string `json:"name"`
+// 			Url  string `json:"url"`
+// 		} `json:"type"`
+// 	} `json:"types"`
+// 	Weight int `json:"weight"`
+// }
+
+type ResponseStats struct {
+	Stats []struct {
+		BaseStat int `json:"base_stat"`
+		Effort   int `json:"effort"`
+		Stat     struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"stat"`
+	} `json:"stats"`
+}
+
+type ChosenStats struct {
+	BaseStat int `json:"base_stat"`
 	Stat     []struct {
-		Name string `json: "name"`
-		Url  string `json: "url"`
-	} `json: "stat"`
+		Name string `json:"name"`
+		Url  string `json:"url"`
+	} `json:"stat"`
 }
 
 //関数たち
@@ -109,24 +199,19 @@ func showDatumByName(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, "missing name")
 }
-
-var img []byte
-var img2 string
-
-func gopherPNG() io.Reader {
-	return base64.NewDecoder(base64.StdEncoding, strings.NewReader(string(img)))
-}
-
 func showDatumById(c echo.Context) error {
 	name, _ := strconv.Atoi(c.FormValue("number"))
 	for i := 0; i < 1140; i++ {
 		if name == pokemons[i].Id {
+			//////////////////////////////////////
+			//種族値表示
+			////////////////////////////
 			url := "https://pokeapi.co/api/v2/pokemon/" + strconv.Itoa(i+1)
 			res, err := http.Get(url)
 			if err != nil {
 				panic(err)
 			}
-			var stats Stats
+			var stats ResponseStats
 			body2, err := ioutil.ReadAll(res.Body)
 			if err != nil {
 				panic(err)
@@ -135,10 +220,25 @@ func showDatumById(c echo.Context) error {
 			if err := json.Unmarshal(body2, &stats); err != nil {
 				panic(err)
 			}
+			// for i = 0 ; i < 6 ; i ++ {
+			// 	statses = append(statses, ResponseStats{BaseStat: stats[i].})
+			// }
+			fmt.Println(stats.Stats[0].Stat.Name, ": ", stats.Stats[0].BaseStat)
+			fmt.Println(stats.Stats[1].Stat.Name, ": ", stats.Stats[1].BaseStat)
+			fmt.Println(stats.Stats[2].Stat.Name, ": ", stats.Stats[2].BaseStat)
+			fmt.Println(stats.Stats[3].Stat.Name, ": ", stats.Stats[3].BaseStat)
+			fmt.Println(stats.Stats[4].Stat.Name, ": ", stats.Stats[4].BaseStat)
+			fmt.Println(stats.Stats[5].Stat.Name, ": ", stats.Stats[5].BaseStat)
+			////////////////////////////////////
+			//種族値表示終わり
+			////////////////////////////////////
+
 			var returns []string
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url)
 
-}
+			return c.JSON(http.StatusOK, returns)
+			// return c.JSON(http.StatusOK, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"+strconv.Itoa(i)+".png")
+		}
 	}
 	return c.JSON(http.StatusOK, "missing id")
 }
