@@ -223,7 +223,12 @@ func showDatumById(c echo.Context) error {
 			// for i = 0 ; i < 6 ; i ++ {
 			// 	statses = append(statses, ResponseStats{BaseStat: stats[i].})
 			// }
-			fmt.Println(stats)
+			fmt.Println(stats.Stats[0].Stat.Name, ": ", stats.Stats[0].BaseStat)
+			fmt.Println(stats.Stats[1].Stat.Name, ": ", stats.Stats[1].BaseStat)
+			fmt.Println(stats.Stats[2].Stat.Name, ": ", stats.Stats[2].BaseStat)
+			fmt.Println(stats.Stats[3].Stat.Name, ": ", stats.Stats[3].BaseStat)
+			fmt.Println(stats.Stats[4].Stat.Name, ": ", stats.Stats[4].BaseStat)
+			fmt.Println(stats.Stats[5].Stat.Name, ": ", stats.Stats[5].BaseStat)
 			////////////////////////////////////
 			//種族値表示終わり
 			////////////////////////////////////
