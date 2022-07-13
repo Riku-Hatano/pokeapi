@@ -220,9 +220,6 @@ func showDatumById(c echo.Context) error {
 			if err := json.Unmarshal(body2, &stats); err != nil {
 				panic(err)
 			}
-			// for i = 0 ; i < 6 ; i ++ {
-			// 	statses = append(statses, ResponseStats{BaseStat: stats[i].})
-			// }
 			fmt.Println(stats.Stats[0].Stat.Name, ": ", stats.Stats[0].BaseStat)
 			fmt.Println(stats.Stats[1].Stat.Name, ": ", stats.Stats[1].BaseStat)
 			fmt.Println(stats.Stats[2].Stat.Name, ": ", stats.Stats[2].BaseStat)
@@ -234,7 +231,7 @@ func showDatumById(c echo.Context) error {
 			////////////////////////////////////
 
 			var returns []string
-			returns = append(returns, pokemons[i].Name, pokemons[i].Url)
+			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat))
 
 			return c.JSON(http.StatusOK, returns)
 			// return c.JSON(http.StatusOK, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"+strconv.Itoa(i)+".png")
