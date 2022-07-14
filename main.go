@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -210,7 +209,7 @@ func showDatumById(c echo.Context) error {
 		if name == pokemons[i].Id {
 			//////////////////////////////////////
 			//種族値表示
-			////////////////////////////
+			//////////////////////////////////////
 			url := "https://pokeapi.co/api/v2/pokemon/" + strconv.Itoa(i+1)
 			res, err := http.Get(url)
 			if err != nil {
@@ -225,20 +224,21 @@ func showDatumById(c echo.Context) error {
 			if err := json.Unmarshal(body2, &stats); err != nil {
 				panic(err)
 			}
-			fmt.Println(stats.Stats[0].Stat.Name, ": ", stats.Stats[0].BaseStat)
-			fmt.Println(stats.Stats[1].Stat.Name, ": ", stats.Stats[1].BaseStat)
-			fmt.Println(stats.Stats[2].Stat.Name, ": ", stats.Stats[2].BaseStat)
-			fmt.Println(stats.Stats[3].Stat.Name, ": ", stats.Stats[3].BaseStat)
-			fmt.Println(stats.Stats[4].Stat.Name, ": ", stats.Stats[4].BaseStat)
-			fmt.Println(stats.Stats[5].Stat.Name, ": ", stats.Stats[5].BaseStat)
+			// fmt.Println(stats.Stats[0].Stat.Name, ": ", stats.Stats[0].BaseStat)
+			// fmt.Println(stats.Stats[1].Stat.Name, ": ", stats.Stats[1].BaseStat)
+			// fmt.Println(stats.Stats[2].Stat.Name, ": ", stats.Stats[2].BaseStat)
+			// fmt.Println(stats.Stats[3].Stat.Name, ": ", stats.Stats[3].BaseStat)
+			// fmt.Println(stats.Stats[4].Stat.Name, ": ", stats.Stats[4].BaseStat)
+			// fmt.Println(stats.Stats[5].Stat.Name, ": ", stats.Stats[5].BaseStat)
 			////////////////////////////////////
 			//種族値表示終わり
 			////////////////////////////////////
 
 			var returns []string
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat))
-
-			return c.JSON(http.StatusOK, returns)
+			w := c.Response()
+			t, _ := template.ParseFiles("tmpl.html")
+			return t.Execute(w, returns)
 			// return c.JSON(http.StatusOK, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"+strconv.Itoa(i)+".png")
 		}
 	}
