@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"text/template"
 
 	"github.com/labstack/echo/v4/middleware"
 
@@ -16,10 +17,14 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-
+	// t := &Template{
+	// 	templates: template.Must(template.ParseGlob("*.html")),
+	// }
+	// e.SetRenderer(t)
 	e.GET("/", showPokemon)
 	e.GET("/getdatumByName", showDatumByName)
 	e.GET("/getdatumById", showDatumById)
+	e.GET("/process", process)
 	e.Logger.Fatal(e.Start(":1323")) //e.loggerがe.post,e.getより先に書かれているとmessage not foundとなる。なぜか。
 }
 
@@ -238,4 +243,20 @@ func showDatumById(c echo.Context) error {
 		}
 	}
 	return c.JSON(http.StatusOK, "missing id")
+}
+
+// type Template struct {
+// 	templates *template.Template
+// }
+
+// func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+// 	return t.templates.ExecuteTemplate(w, name, data)
+// }
+// func process(c echo.Context) error {
+// 	return c.Render(http.StatusOK, "hello", "world")
+// }
+func process(c echo.Context) error {
+	w := c.Response()
+	t, _ := template.ParseFiles("tmpl.html")
+	return t.Execute(w, "hello world")
 }
