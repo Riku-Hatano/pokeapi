@@ -17,10 +17,7 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
-	// t := &Template{
-	// 	templates: template.Must(template.ParseGlob("*.html")),
-	// }
-	// e.SetRenderer(t)
+
 	e.GET("/", showPokemon)
 	e.GET("/getdatumByName", showDatumByName)
 	e.GET("/getdatumById", showDatumById)
