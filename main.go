@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -23,7 +24,6 @@ func main() {
 	e.GET("/", showPokemon)
 	e.GET("/getdatumByName", showDatumByName)
 	e.GET("/getdatumById", showDatumById)
-	e.GET("/process", process)
 	e.Logger.Fatal(e.Start(":1323")) //e.loggerがe.post,e.getより先に書かれているとmessage not foundとなる。なぜか。
 }
 
@@ -172,7 +172,7 @@ func showPokemon(c echo.Context) error {
 			pokemons = append(pokemons, Pokemons{Name: responses[i].Results[j].Name, Url: responses[i].Results[j].URL, Id: i*20 + j + 1})
 		}
 	}
-	/////////////////////////////
+	//以下繰り返し処理でポケモンの情報を追加
 	for i := 1; i < 57; i++ {
 		var response Response
 		url := "https://pokeapi.co/api/v2/pokemon?offset=" + strconv.Itoa(i*20) + "\u0026limit=" + strconv.Itoa(i*20)
@@ -189,8 +189,7 @@ func showPokemon(c echo.Context) error {
 			pokemons = append(pokemons, Pokemons{Name: responses[i].Results[j].Name, Url: responses[i].Results[j].URL, Id: i*20 + j + 1})
 		}
 	}
-	/////////////////////////////
-
+	//繰り返し処理のポケモンの情報の追加終わり
 	return c.JSON(http.StatusOK, pokemons)
 }
 
@@ -224,39 +223,25 @@ func showDatumById(c echo.Context) error {
 			if err := json.Unmarshal(body2, &stats); err != nil {
 				panic(err)
 			}
-			// fmt.Println(stats.Stats[0].Stat.Name, ": ", stats.Stats[0].BaseStat)
-			// fmt.Println(stats.Stats[1].Stat.Name, ": ", stats.Stats[1].BaseStat)
-			// fmt.Println(stats.Stats[2].Stat.Name, ": ", stats.Stats[2].BaseStat)
-			// fmt.Println(stats.Stats[3].Stat.Name, ": ", stats.Stats[3].BaseStat)
-			// fmt.Println(stats.Stats[4].Stat.Name, ": ", stats.Stats[4].BaseStat)
-			// fmt.Println(stats.Stats[5].Stat.Name, ": ", stats.Stats[5].BaseStat)
 			////////////////////////////////////
 			//種族値表示終わり
 			////////////////////////////////////
 
+			////////////////////////////////////
+			//template
+			////////////////////////////////////
 			var returns []string
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat))
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
+			i, _ := strconv.Atoi(returns[3])
+			fmt.Println(i)
+			fmt.Println(returns)
 			return t.Execute(w, returns)
-			// return c.JSON(http.StatusOK, "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/"+strconv.Itoa(i)+".png")
+			/////////////////////////////////////
+			//template終わり
+			/////////////////////////////////////
 		}
 	}
 	return c.JSON(http.StatusOK, "missing id")
-}
-
-// type Template struct {
-// 	templates *template.Template
-// }
-
-// func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-// 	return t.templates.ExecuteTemplate(w, name, data)
-// }
-// func process(c echo.Context) error {
-// 	return c.Render(http.StatusOK, "hello", "world")
-// }
-func process(c echo.Context) error {
-	w := c.Response()
-	t, _ := template.ParseFiles("tmpl.html")
-	return t.Execute(w, "hello world")
 }

@@ -5,11 +5,17 @@
         <title>go with html</title>
     </head>
     <body>
-        <h3>
-            種族値
-        </h3>
-        <p>
-            {{ . }}
-        </p>
+        <div>
+            <h2>{{ index . 0 }}</h2>
+            <h3>詳しい情報</h3>
+            <p>{{ index . 2 }} : {{ index . 3 }}</p>
+            <p>{{ index . 4 }} : {{ index . 5 }}</p>
+            <p>{{ index . 6 }} : {{ index . 7 }}</p>
+            <p>{{ index . 8 }} : {{ index . 9 }}</p>
+            <p>{{ index . 10 }} : {{ index . 11 }}</p>
+            <p>{{ index . 12 }} : {{ index . 13 }}</p>
+            <p>url : {{ index . 1 }}</p>
+        </div>
+
     </body>
 </html>
