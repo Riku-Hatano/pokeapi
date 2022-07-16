@@ -11,7 +11,52 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/labstack/echo/v4"
+	// "pokemonApi2/subpkg"
 )
+
+//構造体たち（受け取る側）
+type Response struct {
+	Count    int         `json:"count"`
+	Next     string      `json:"next"`
+	Previous interface{} `json:"previous"`
+	Results  []struct {
+		Name string `json:"name"`
+		URL  string `json:"url"`
+	} `json:"results"`
+}
+type ResponseStats struct {
+	Abilities []struct {
+		Ability struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"ability"`
+		IsHidden bool `json:"is_hidden"`
+		Slot     int  `json:"slot"`
+	} `json:"abilities"`
+	Stats []struct {
+		BaseStat int `json:"base_stat"`
+		Effort   int `json:"effort"`
+		Stat     struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"stat"`
+	} `json:"stats"`
+}
+
+//構造体たち（出力する側）
+type Pokemons struct {
+	Name string `json:"name"`
+	Url  string `json:"url"`
+	Id   int    `json:"id"`
+}
+
+type ChosenStats struct {
+	BaseStat int `json:"base_stat"`
+	Stat     []struct {
+		Name string      `json:"name"`
+		Url  interface{} `json:"url"`
+	} `json:"stat"`
+}
 
 func main() {
 	e := echo.New()
@@ -27,122 +72,6 @@ func main() {
 //グローバル変数
 var pokemons []Pokemons
 var statses []ResponseStats
-
-//typeたち
-type Response struct {
-	Count    int         `json:"count"`
-	Next     string      `json:"next"`
-	Previous interface{} `json:"previous"`
-	Results  []struct {
-		Name string `json:"name"`
-		URL  string `json:"url"`
-	} `json:"results"`
-}
-type Pokemons struct {
-	Name string `json:"name"`
-	Url  string `json:"url"`
-	Id   int    `json:"id"`
-}
-
-// type ResponseStats struct {
-// 	Abilities []struct {
-// 		Aiblity []struct {
-// 			Name string `json:"name"`
-// 			Url  string `json:"url"`
-// 		} `json:"ability"`
-// 		IsHidden bool  `json:"is_hidden"`
-// 		Slot     []int `json:"slot"`
-// 	} `json:"abilities"`
-// 	BaseExperience int `json:"base_experience"`
-// 	Forms          []struct {
-// 		Name string `json:"name"`
-// 		Url  string `json:"url"`
-// 	} `json:"forms"`
-// 	GameIndices []struct {
-// 		GameIndex int `json:"game_index"`
-// 		Version   []struct {
-// 			Name string `json:"name"`
-// 			Url  string `json:"url"`
-// 		} `json:"version"`
-// 	} `json:"game_index"`
-// 	Height    int `json:"height"`
-// 	HeldItems []struct {
-// 		Item []struct {
-// 			Name string `json:"name"`
-// 			Url  string `json:"url"`
-// 		} `json:"item"`
-// 		VersionDetails []*[]struct {
-// 			Rarity  int `json:"rarity"`
-// 			Version []struct {
-// 				Name string `json:"name"`
-// 				Url  string `json:"url"`
-// 			} `json:"version"`
-// 		} `json:"version_details"`
-// 	}
-// 	Id                     int    `json:"id"`
-// 	IsDefault              bool   `json:"is_default"`
-// 	LocationAreaEncounters string `json:"location_area_encounters"`
-// 	Moves                  []struct {
-// 		Move []struct {
-// 			Name string `json:"name"`
-// 			Url  string `json:"url"`
-// 		} `json:"move"`
-// 		VersionGroupDetails []*[]struct {
-// 			LevelLearnedAt  int `json:"level_learned_at"`
-// 			MoveLearnMethod []struct {
-// 				Name string `json:"name"`
-// 				Url  string `json:"url"`
-// 			} `json:"move_learn_method"`
-// 			VersionGroup []struct {
-// 				Name string `json:"name"`
-// 				Url  string `json:"url"`
-// 			} `json:"version_group"`
-// 		} `json:"version_group_details"`
-// 	} `json:"moves"`
-// 	Name      string   `json:"name"`
-// 	Order     int      `json:"order"`
-// 	PastTypes []string `json:"past_types"`
-// 	Species   []struct {
-// 		Name string `json:"name"`
-// 		Url  string `json:"url"`
-// 	} `json:"species"`
-// 	Spirites interface{}
-// Stats    []struct {
-// 	BaseStat int `json:"base_stat"`
-// 	Effort   int `json:"effort"`
-// 	Stat     []struct {
-// 		Name string `json:"name"`
-// 		Url  string `json:"url"`
-// 	} `json:"stat"`
-// } `json:"stats"`
-// 	Types []struct {
-// 		Slot int `json:"slot"`
-// 		Type []struct {
-// 			Name string `json:"name"`
-// 			Url  string `json:"url"`
-// 		} `json:"type"`
-// 	} `json:"types"`
-// 	Weight int `json:"weight"`
-// }
-
-type ResponseStats struct {
-	Stats []struct {
-		BaseStat int `json:"base_stat"`
-		Effort   int `json:"effort"`
-		Stat     struct {
-			Name string `json:"name"`
-			Url  string `json:"url"`
-		} `json:"stat"`
-	} `json:"stats"`
-}
-
-type ChosenStats struct {
-	BaseStat int `json:"base_stat"`
-	Stat     []struct {
-		Name string `json:"name"`
-		Url  string `json:"url"`
-	} `json:"stat"`
-}
 
 //関数たち
 func showPokemon(c echo.Context) error {
@@ -204,7 +133,7 @@ func showDatumById(c echo.Context) error {
 	for i := 0; i < 1140; i++ {
 		if name == pokemons[i].Id {
 			//////////////////////////////////////
-			//種族値表示
+			//種族値、特性表示
 			//////////////////////////////////////
 			url := "https://pokeapi.co/api/v2/pokemon/" + strconv.Itoa(i+1)
 			res, err := http.Get(url)
@@ -263,12 +192,15 @@ func showDatumById(c echo.Context) error {
 			//template
 			////////////////////////////////////
 			var returns []string
-			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat))
+			howMany := len(stats.Abilities)
+			for i := 0; i < howMany; i++ {
+				fmt.Println(i, ": ", stats.Abilities[i].Ability.Name)
+			}
+			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat),
+				stats.Abilities[0].Ability.Name)
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
 			i, _ := strconv.Atoi(returns[3])
-			fmt.Println(i)
-			fmt.Println(returns)
 			return t.Execute(w, returns)
 			/////////////////////////////////////
 			//template終わり
