@@ -3,10 +3,8 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"image/png"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strconv"
 	"text/template"
 
@@ -228,34 +226,34 @@ func showDatumById(c echo.Context) error {
 			////////////////////////////////////
 			//pngファイル持ってくる処理
 			////////////////////////////////////
-			j, err := http.Get("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/800.png")
-			if err != nil {
-				panic(err)
-			}
-			img, err := ioutil.ReadAll(j.Body)
-			if err != nil {
-				panic(err)
-			}
-			file, err := os.Create("sample.png")
-			if err != nil {
-				panic(err)
-			}
-			defer file.Close()
-			file.Write(img)
+			// j, err := http.Get("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-viii/icons/800.png")
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// img, err := ioutil.ReadAll(j.Body)
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// file, err := os.Create("sample.png")
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// defer file.Close()
+			// file.Write(img)
 
-			p, err := os.Open("./sample.png")
-			if err != nil {
-				panic(err)
-			}
-			fmt.Println(p)
-			defer p.Close()
-			imgg, err := png.Decode(p)
-			if err != nil {
-				panic(err)
-			}
-			fmt.Println(imgg)
+			// p, err := os.Open("./sample.png")
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// fmt.Println(p)
+			// defer p.Close()
+			// imgg, err := png.Decode(p)
+			// if err != nil {
+			// 	panic(err)
+			// }
+			// fmt.Println(imgg)
 
-			defer j.Body.Close()
+			// defer j.Body.Close()
 
 			////////////////////////////////////
 			//pngファイル持ってくる処理終わり
