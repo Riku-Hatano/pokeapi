@@ -60,6 +60,45 @@ type ResponseStats struct {
 			} `json:"version"`
 		} `json:"version_details"`
 	} `json:"held_items"`
+	Id                     int    `json:"id"`
+	IsDefault              bool   `json:"is_default"`
+	LocationAreaEncounters string `json:"location_area_encounters"`
+	Moves                  []struct {
+		Move struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"move"`
+		VersionGroupDetails []struct {
+			LevelLearnedAt  int `json:"level_learned_at"`
+			MoveLearnMethod struct {
+				Name string `json:"name"`
+				Url  string `json:"url"`
+			} `json:"move_learn_method"`
+			VersionGroup struct {
+				Name string `json:"name"`
+				Url  string `json:"url"`
+			} `json:"version_group"`
+		} `json:"version_group_details"`
+	} `json:"moves"`
+	Name      string `json:"name"`
+	Order     int    `json:"order"`
+	PastTypes []struct {
+		Generation struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"generation"`
+		Types []struct {
+			Slot int `json:"slot"`
+			Type struct {
+				Name string `json:"name"`
+				Url  string `json:"url"`
+			} `json:"type"`
+		} `json:"types"`
+	} `json:"past_types"`
+	Species struct {
+		Name string `json:"name"`
+		Url  string `json:"url"`
+	} `json:"species"`
 	Stats []struct {
 		BaseStat int `json:"base_stat"`
 		Effort   int `json:"effort"`
@@ -68,6 +107,13 @@ type ResponseStats struct {
 			Url  string `json:"url"`
 		} `json:"stat"`
 	} `json:"stats"`
+	Types []struct {
+		Slot int `json:"slot"`
+		Type struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"type"`
+	} `json:"types"`
 }
 
 //構造体たち（出力する側）
@@ -219,20 +265,52 @@ func showDatumById(c echo.Context) error {
 			//template
 			////////////////////////////////////
 			var returns []string
+			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
+			fmt.Println("/////////////////////////////info about searched pokemon///////////////////////////////////")
+			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			howManyAbilities := len(stats.Abilities)
 			for i := 0; i < howManyAbilities; i++ {
-				fmt.Println(i, ": ", stats.Abilities[i].Ability.Name)
+				fmt.Println("ability", i, ": ", stats.Abilities[i].Ability.Name)
 			}
 			fmt.Println("base experience : ", stats.BaseExperience)
 			fmt.Println("forms : ", stats.Forms[0].Name)
-			fmt.Println("game indices : ", stats.GameIndices[0].GameIndex, " game version: ", stats.GameIndices[0].Version.Name)
+			if len(stats.GameIndices) != 0 {
+				fmt.Println("game indices : ", stats.GameIndices[0].GameIndex, " game version: ", stats.GameIndices[0].Version.Name)
+			}
 			fmt.Println("height : ", stats.Height)
 			fmt.Println("wehght : ", stats.Weight)
 			howManyHeldItems := len(stats.HeldItems)
 			for i := 0; i < howManyHeldItems; i++ {
-				fmt.Println(i, ": ", stats.HeldItems[i].Item.Name)
+				fmt.Println("held item", i, ": ", stats.HeldItems[i].Item.Name)
 			}
-
+			fmt.Println("id : ", stats.Id)
+			fmt.Println("is default : ", stats.IsDefault)
+			fmt.Println("location area encounter : ", stats.LocationAreaEncounters)
+			howManyMoves := len(stats.Moves)
+			for i := 0; i < howManyMoves; i++ {
+				fmt.Println("move : ", stats.Moves[i].Move.Name) //世代によって覚える技が違うので後で調整する(game indiceみたいな感じにやればできるかも)
+			}
+			fmt.Println("name : ", stats.Name)
+			fmt.Println("order : ", stats.Order)
+			if len(stats.PastTypes) != 0 {
+				fmt.Println("generation : ", stats.PastTypes[0].Generation.Name)
+				if len(stats.PastTypes[0].Types) == 1 {
+					fmt.Println("past type : ", stats.PastTypes[0].Types[0].Type.Name)
+				} else {
+					fmt.Println("past type1 : ", stats.PastTypes[0].Types[0].Type.Name)
+					fmt.Println("past type2 : ", stats.PastTypes[0].Types[1].Type.Name)
+				}
+			}
+			fmt.Println("species name : ", stats.Species.Name)
+			if len(stats.Types) == 1 {
+				fmt.Println(stats.Types[0].Type.Name)
+			} else {
+				fmt.Println(stats.Types[0].Type.Name)
+				fmt.Println(stats.Types[1].Type.Name)
+			}
+			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
+			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
+			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat),
 				stats.Abilities[0].Ability.Name)
 			w := c.Response()
