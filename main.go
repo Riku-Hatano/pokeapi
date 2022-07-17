@@ -33,6 +33,33 @@ type ResponseStats struct {
 		IsHidden bool `json:"is_hidden"`
 		Slot     int  `json:"slot"`
 	} `json:"abilities"`
+	BaseExperience int `json:"base_experience"`
+	Forms          []struct {
+		Name string `json:"name"`
+		Url  string `json:"url"`
+	} `json:"forms"`
+	GameIndices []struct {
+		GameIndex int `json:"game_index"`
+		Version   struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"version"`
+	} `json:"game_indices"`
+	Height    int `json:"height"`
+	Weight    int `json:"weight"`
+	HeldItems []struct {
+		Item struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"item"`
+		VersionDetails []struct {
+			Rarity  int `json:"rarity"`
+			Version struct {
+				Name string `json:"name"`
+				Url  string `json:"url"`
+			} `json:"version"`
+		} `json:"version_details"`
+	} `json:"held_items"`
 	Stats []struct {
 		BaseStat int `json:"base_stat"`
 		Effort   int `json:"effort"`
@@ -192,15 +219,24 @@ func showDatumById(c echo.Context) error {
 			//template
 			////////////////////////////////////
 			var returns []string
-			howMany := len(stats.Abilities)
-			for i := 0; i < howMany; i++ {
+			howManyAbilities := len(stats.Abilities)
+			for i := 0; i < howManyAbilities; i++ {
 				fmt.Println(i, ": ", stats.Abilities[i].Ability.Name)
 			}
+			fmt.Println("base experience : ", stats.BaseExperience)
+			fmt.Println("forms : ", stats.Forms[0].Name)
+			fmt.Println("game indices : ", stats.GameIndices[0].GameIndex, " game version: ", stats.GameIndices[0].Version.Name)
+			fmt.Println("height : ", stats.Height)
+			fmt.Println("wehght : ", stats.Weight)
+			howManyHeldItems := len(stats.HeldItems)
+			for i := 0; i < howManyHeldItems; i++ {
+				fmt.Println(i, ": ", stats.HeldItems[i].Item.Name)
+			}
+
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat),
 				stats.Abilities[0].Ability.Name)
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
-			i, _ := strconv.Atoi(returns[3])
 			return t.Execute(w, returns)
 			/////////////////////////////////////
 			//template終わり
