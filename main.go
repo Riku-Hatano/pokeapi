@@ -14,7 +14,7 @@ import (
 	// "pokemonApi2/subpkg"
 )
 
-//構造体たち（受け取る側）
+//"/"で受け取るために使う構造体
 type Response struct {
 	Count    int         `json:"count"`
 	Next     string      `json:"next"`
@@ -24,6 +24,8 @@ type Response struct {
 		URL  string `json:"url"`
 	} `json:"results"`
 }
+
+//"/getdatumById"で受け取るために使う構造体
 type ResponseStats struct {
 	Abilities []struct {
 		Ability struct {
@@ -121,14 +123,6 @@ type Pokemons struct {
 	Name string `json:"name"`
 	Url  string `json:"url"`
 	Id   int    `json:"id"`
-}
-
-type ChosenStats struct {
-	BaseStat int `json:"base_stat"`
-	Stat     []struct {
-		Name string      `json:"name"`
-		Url  interface{} `json:"url"`
-	} `json:"stat"`
 }
 
 func main() {
@@ -261,9 +255,6 @@ func showDatumById(c echo.Context) error {
 			//pngファイル持ってくる処理終わり
 			////////////////////////////////////
 
-			////////////////////////////////////
-			//template
-			////////////////////////////////////
 			var returns []string
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("/////////////////////////////info about searched pokemon///////////////////////////////////")
@@ -311,6 +302,9 @@ func showDatumById(c echo.Context) error {
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
+			////////////////////////////////////
+			//template
+			////////////////////////////////////
 			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat),
 				stats.Abilities[0].Ability.Name)
 			w := c.Response()
