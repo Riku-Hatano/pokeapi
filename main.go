@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"reflect"
 	"strconv"
 	"text/template"
 
@@ -21,7 +20,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.GET("/", funcs.ShowPokemon)
-	e.GET("/getdatumByName", showDatumByName)
+	e.GET("/getdatumByName", funcs.ShowDatumByName)
 	e.GET("/getdatumById", showDatumById)
 	e.Logger.Fatal(e.Start(":1323")) //e.loggerがe.post,e.getより先に書かれているとmessage not foundとなる。なぜか。
 }
@@ -78,21 +77,6 @@ func main() {
 
 var pokemons []structs.Pokemons
 
-func a(c echo.Context) error {
-	fmt.Println("done")
-	fmt.Println(reflect.TypeOf(funcs.ShowPokemon))
-	fmt.Println(reflect.TypeOf(showDatumByName))
-	return c.JSON(http.StatusOK, "")
-}
-func showDatumByName(c echo.Context) error {
-	name := c.FormValue("name")
-	for i := 0; i <= 1140; i++ {
-		if name == pokemons[i].Name {
-			return c.JSON(http.StatusOK, pokemons[i].Id)
-		}
-	}
-	return c.JSON(http.StatusOK, "missing name")
-}
 func showDatumById(c echo.Context) error {
 	name, _ := strconv.Atoi(c.FormValue("number"))
 	for i := 0; i < 1140; i++ {
