@@ -2,20 +2,20 @@ package funcs
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"pokemonApi2/structs"
 	"strconv"
+	"text/template"
 
 	"github.com/labstack/echo/v4"
 )
 
-var pokemons []structs.Pokemons
-
 func ShowDatumById(c echo.Context) error {
 	name, _ := strconv.Atoi(c.FormValue("number"))
 	for i := 0; i < 1140; i++ {
-		if name == pokemons[i].Id {
+		if name == Pokemons[i].Id {
 			//////////////////////////////////////
 			//種族値、特性表示
 			//////////////////////////////////////
@@ -122,7 +122,7 @@ func ShowDatumById(c echo.Context) error {
 			////////////////////////////////////
 			//template
 			////////////////////////////////////
-			returns = append(returns, pokemons[i].Name, pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat),
+			returns = append(returns, Pokemons[i].Name, Pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat),
 				stats.Abilities[0].Ability.Name)
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
