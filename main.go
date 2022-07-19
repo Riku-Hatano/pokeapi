@@ -11,6 +11,8 @@ func main() {
 	e := echo.New()
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Static("/imgs", "./imgs")
+	e.Static("/css", "./css")
 	e.GET("/", funcs.ShowPokemon)
 	e.GET("/getdatumByName", funcs.ShowDatumByName)
 	e.GET("/getdatumById", funcs.ShowDatumById)
