@@ -5,11 +5,17 @@
         <link rel="stylesheet" href="css/tmpl.css">
         <title>go with html</title>
     </head>
-    <body id="body">
-        <div>
-            <a href="www.google.com">google</a>
-            <img src="./imgs/monsterBall.jpeg">
-            <img src="imgs/37AC5537-7ED3-4F72-ACCC-5980D38E6299_1_105_c.jpeg">
+    <body>
+        <div id="divParent1">
+            <img src="./imgs/monsterBall.jpeg" id="picture1">
+            <div id="divParent1Child1">
+                <p>no</p>
+                <p>name</p>
+                <div>
+                    <img src="./imgs/male.jpeg" class="imgs1">
+                    <img src="./imgs/female.jpeg" class="imgs1">
+                </div>
+            </div>
         </div>
         <div>
             <h2>{{ index . 0 }}</h2>

@@ -1,4 +1,4 @@
-#body {
-    background-color: skyblue;
-    color: white
+#divParent1 {
+    display: flex;
 }
+
