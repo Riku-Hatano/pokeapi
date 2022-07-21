@@ -122,8 +122,8 @@ func ShowDatumById(c echo.Context) error {
 			////////////////////////////////////
 			//template
 			////////////////////////////////////
-			returns = append(returns, Pokemons[i].Name, Pokemons[i].Url, stats.Stats[0].Stat.Name, strconv.Itoa(stats.Stats[0].BaseStat), stats.Stats[1].Stat.Name, strconv.Itoa(stats.Stats[1].BaseStat), stats.Stats[2].Stat.Name, strconv.Itoa(stats.Stats[2].BaseStat), stats.Stats[3].Stat.Name, strconv.Itoa(stats.Stats[3].BaseStat), stats.Stats[4].Stat.Name, strconv.Itoa(stats.Stats[4].BaseStat), stats.Stats[5].Stat.Name, strconv.Itoa(stats.Stats[5].BaseStat),
-				stats.Abilities[0].Ability.Name)
+			returns = append(returns, strconv.Itoa(stats.Order), stats.Name)
+			strconv.Itoa(stats.Stats[1].BaseStat)
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
 			return t.Execute(w, returns)
