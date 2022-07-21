@@ -122,8 +122,8 @@ func ShowDatumById(c echo.Context) error {
 			////////////////////////////////////
 			//template
 			////////////////////////////////////
-			returns = append(returns, strconv.Itoa(stats.Order), stats.Name)
-			strconv.Itoa(stats.Stats[1].BaseStat)
+			returns = append(returns, strconv.Itoa(stats.Id), stats.Name, strconv.Itoa(stats.Stats[0].BaseStat), strconv.Itoa(stats.Stats[1].BaseStat), strconv.Itoa(stats.Stats[2].BaseStat), strconv.Itoa(stats.Stats[3].BaseStat), strconv.Itoa(stats.Stats[4].BaseStat), strconv.Itoa(stats.Stats[5].BaseStat))
+			// strconv.Itoa(stats.Stats[1].BaseStat)
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
 			return t.Execute(w, returns)
