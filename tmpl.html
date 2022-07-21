@@ -5,28 +5,31 @@
         <link rel="stylesheet" href="css/tmpl.css">
         <title>go with html</title>
     </head>
-    <body>
+    <header id="header">
+        <img src="./imgs/pokemonPictureBook.jpeg" id="headerImage">
+    </header>
+    <body id="body">
         <div id="divParent1">
             <img src="./imgs/monsterBall.jpeg" id="picture1">
             <div id="divParent1Child1">
                 <h2 class="divParent1Child1Class1">{{ index . 1 }}</h2>
                 <h3 class="divParent1Child1Class1">図鑑No.{{ index . 0 }}</h3>
                 <div id="divParent1Child1Id1">
-                    <img src="./imgs/male.jpeg" class="imgs1">
-                    <img src="./imgs/female.jpeg" class="imgs1">
+                    <img src="./imgs/male.png" class="imgs1">
+                    <img src="./imgs/female.png" class="imgs1">
                 </div>
             </div>
         </div>
         <hr>
         <div>
-            <h2>{{ index . 0 }}</h2>
+            <h2>{{ index . 1 }}</h2>
             <h3>詳しい情報</h3>
-           <p>ljasifjasd;lfkja;fkldjk</p>
-           <p>ljasifjasd;lfkja;fkldjk</p>
-           <p>ljasifjasd;lfkja;fkldjk</p>
-           <p>ljasifjasd;lfkja;fkldjk</p>
-           <p>ljasifjasd;lfkja;fkldjk</p>
-           <p>ljasifjasd;lfkja;fkldjk</p>
+           <p>HP: {{ index . 2 }}</p>
+           <p>こうげき: {{ index . 3 }}</p>
+           <p>ぼうぎょ: {{ index . 4 }}</p>
+           <p>とくこう: {{ index . 5 }}</p>
+           <p>とくぼう: {{ index . 6 }}</p>
+           <p>すばやさ: {{ index . 7 }}</p>
             <p>more information : <a href="{{ index . 1 }}">click here</a></p>
             <p>{{ index . 1 }}</p>
             <p>{{ . }}</p>

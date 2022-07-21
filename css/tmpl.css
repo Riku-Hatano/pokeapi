@@ -1,3 +1,15 @@
+#header {
+    height: 80px;
+    background-color: khaki;
+}
+#headerImage {
+    margin: auto;
+    height: 60px;
+    width: 200px;
+}
+#body {
+    margin: 0px;
+}
 #divParent1 {
     display: flex;
     background-color: gainsboro;
@@ -20,8 +32,8 @@
     box-shadow: 10px 10px 20px 5px black;
     background-color: gray;
 }
-#divParent1Child1Id1 {
-}
+/* #divParent1Child1Id1 {
+} */
 .divParent1Child1Class1 {
     user-select: none;
 }
