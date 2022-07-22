@@ -1,9 +1,12 @@
 #header {
-    height: 80px;
-    background-color: khaki;
+    height: 85px;
+    box-shadow: 0px 0.5px 5px 5px #888888;
+    position: relative;
+    background-color: white;
 }
 #headerImage {
     margin: auto;
+    user-select: none;
     height: 60px;
     width: 200px;
 }
@@ -12,7 +15,8 @@
 }
 #divParent1 {
     display: flex;
-    background-color: gainsboro;
+    height: 230px;
+    background-color: #ffffff;
 }
 #picture1 {
     margin: auto;
@@ -26,11 +30,11 @@
 #divParent1Child1 {
     text-align: center;
     margin: auto;
-    border-radius: 5px;
-    width: 200px;
+    border-radius: 10px;
+    width: 400px;
     height: 200px;
-    box-shadow: 10px 10px 20px 5px black;
-    background-color: gray;
+    box-shadow: 5px 5px 5px 5px #888888;
+    background-color: #ffffff;
 }
 /* #divParent1Child1Id1 {
 } */
