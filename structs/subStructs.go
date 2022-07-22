@@ -49,14 +49,17 @@ type ResponseStats2 struct {
 		Name string `json:"name"`
 		Url  string `json:"url"`
 	} `json:"growth_rate"`
-	Habitat              []string `json:"habitat"`
-	HasGenderDifferences bool     `json:"has_gender_differences"`
-	HatchCounter         int      `json:"hatch_counter"`
-	Id                   int      `json:"id"`
-	IsBaby               bool     `json:"is_baby"`
-	IsLegendary          bool     `json:"is_legendary"`
-	IsMythical           bool     `json:"is_mythical"`
-	Name                 string   `json:"name"`
+	Habitat struct {
+		Name string `json:"name"`
+		Url  string `json:"url"`
+	} `json:"habitat"`
+	HasGenderDifferences bool   `json:"has_gender_differences"`
+	HatchCounter         int    `json:"hatch_counter"`
+	Id                   int    `json:"id"`
+	IsBaby               bool   `json:"is_baby"`
+	IsLegendary          bool   `json:"is_legendary"`
+	IsMythical           bool   `json:"is_mythical"`
+	Name                 string `json:"name"`
 	Names                []struct {
 		Language struct {
 			Name string `json:"name"`

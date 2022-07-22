@@ -146,6 +146,23 @@ func ShowDatumById(c echo.Context) error {
 					fmt.Println("flavor_text_entries", i+1, " : ", stats2.FlavorTextEntries[i].FlavorText)
 				}
 			}
+			fmt.Println("form_descriptions : ", stats2.FormDescriptions)
+			fmt.Println("forms_sweitchable : ", stats2.FormsSwitchable)
+			fmt.Println("gender_rate : ", stats2.GenderRate)
+			howManyGeneras := len(stats2.Genera)
+			for i := 0; i < howManyGeneras; i++ {
+				fmt.Println("genera", i+1, " : ", stats2.Genera[i].Genus)
+			}
+			fmt.Println("generation : ", stats2.Generation.Name)
+			fmt.Println("growth_rate : ", stats2.GrowthRate.Name)
+			fmt.Println("habitat : ", stats2.Habitat.Name)
+			fmt.Println("has_gender_differences : ", stats2.HasGenderDifferences)
+			fmt.Println("hatch_counter : ", stats2.HatchCounter)
+			fmt.Println("Id : ", stats2.Id)
+			fmt.Println("is_baby : ", stats2.IsBaby)
+			fmt.Println("is_legendary : ", stats2.IsLegendary)
+			fmt.Println("is_mythical : ", stats2.IsMythical)
+			fmt.Println("name : ", stats2.Name)
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
