@@ -163,6 +163,24 @@ func ShowDatumById(c echo.Context) error {
 			fmt.Println("is_legendary : ", stats2.IsLegendary)
 			fmt.Println("is_mythical : ", stats2.IsMythical)
 			fmt.Println("name : ", stats2.Name)
+			howManyNames := len(stats2.Names)
+			for i := 0; i < howManyNames; i++ {
+				fmt.Println("names", i+1, " : ", stats2.Names[i].Name)
+			}
+			fmt.Println("order : ", stats2.Order)
+			howManyPal := len(stats2.PalParkEncounters)
+			for i := 0; i < howManyPal; i++ {
+				fmt.Println("pal_park_encounters", i+1, " : ", stats2.PalParkEncounters[i].Area.Name)
+			}
+			howManyPokedexes := len(stats2.PokedexNumbers)
+			for i := 0; i < howManyPokedexes; i++ {
+				fmt.Println(stats2.PokedexNumbers[i].Pokedex.Name, " : ", stats2.PokedexNumbers[i].EntryNumber)
+			}
+			fmt.Println(stats2.Shape.Name)
+			howManyVarieties := len(stats2.Varieties)
+			for i := 0; i < howManyVarieties; i++ {
+				fmt.Println("varieties", i+1, " : ", stats2.Varieties[i].Pokemon.Name)
+			}
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
