@@ -91,46 +91,46 @@ func ShowDatumById(c echo.Context) error {
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("/////////////////////////////info about searched pokemon in terminal///////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
-			// howManyAbilities := len(stats.Abilities)
-			// for i := 0; i < howManyAbilities; i++ {
-			// 	fmt.Println("ability", i, ": ", stats.Abilities[i].Ability.Name)
-			// }
-			// fmt.Println("base experience : ", stats.BaseExperience)
-			// fmt.Println("forms : ", stats.Forms[0].Name)
-			// if len(stats.GameIndices) != 0 {
-			// 	fmt.Println("game indices : ", stats.GameIndices[0].GameIndex, " game version: ", stats.GameIndices[0].Version.Name)
-			// }
-			// fmt.Println("height : ", stats.Height)
-			// fmt.Println("wehght : ", stats.Weight)
-			// howManyHeldItems := len(stats.HeldItems)
-			// for i := 0; i < howManyHeldItems; i++ {
-			// 	fmt.Println("held item", i, ": ", stats.HeldItems[i].Item.Name)
-			// }
-			// fmt.Println("id : ", stats.Id)
-			// fmt.Println("is default : ", stats.IsDefault)
-			// fmt.Println("location area encounter : ", stats.LocationAreaEncounters)
-			// howManyMoves := len(stats.Moves)
-			// for i := 0; i < howManyMoves; i++ {
-			// 	fmt.Println("move : ", stats.Moves[i].Move.Name) //世代によって覚える技が違うので後で調整する(game indiceみたいな感じにやればできるかも)
-			// }
-			// fmt.Println("name : ", stats.Name)
-			// fmt.Println("order : ", stats.Order)
-			// if len(stats.PastTypes) != 0 {
-			// 	fmt.Println("generation : ", stats.PastTypes[0].Generation.Name)
-			// 	if len(stats.PastTypes[0].Types) == 1 {
-			// 		fmt.Println("past type : ", stats.PastTypes[0].Types[0].Type.Name)
-			// 	} else {
-			// 		fmt.Println("past type1 : ", stats.PastTypes[0].Types[0].Type.Name)
-			// 		fmt.Println("past type2 : ", stats.PastTypes[0].Types[1].Type.Name)
-			// 	}
-			// }
-			// fmt.Println("species name : ", stats.Species.Name)
-			// if len(stats.Types) == 1 {
-			// 	fmt.Println(stats.Types[0].Type.Name)
-			// } else {
-			// 	fmt.Println(stats.Types[0].Type.Name)
-			// 	fmt.Println(stats.Types[1].Type.Name)
-			// }
+			howManyAbilities := len(stats.Abilities)
+			for i := 0; i < howManyAbilities; i++ {
+				fmt.Println("ability", i, ": ", stats.Abilities[i].Ability.Name)
+			}
+			fmt.Println("base experience : ", stats.BaseExperience)
+			fmt.Println("forms : ", stats.Forms[0].Name)
+			if len(stats.GameIndices) != 0 {
+				fmt.Println("game indices : ", stats.GameIndices[0].GameIndex, " game version: ", stats.GameIndices[0].Version.Name)
+			}
+			fmt.Println("height : ", stats.Height)
+			fmt.Println("wehght : ", stats.Weight)
+			howManyHeldItems := len(stats.HeldItems)
+			for i := 0; i < howManyHeldItems; i++ {
+				fmt.Println("held item", i, ": ", stats.HeldItems[i].Item.Name)
+			}
+			fmt.Println("id : ", stats.Id)
+			fmt.Println("is default : ", stats.IsDefault)
+			fmt.Println("location area encounter : ", stats.LocationAreaEncounters)
+			howManyMoves := len(stats.Moves)
+			for i := 0; i < howManyMoves; i++ {
+				fmt.Println("move : ", stats.Moves[i].Move.Name) //世代によって覚える技が違うので後で調整する(game indiceみたいな感じにやればできるかも)
+			}
+			fmt.Println("name : ", stats.Name)
+			fmt.Println("order : ", stats.Order)
+			if len(stats.PastTypes) != 0 {
+				fmt.Println("generation : ", stats.PastTypes[0].Generation.Name)
+				if len(stats.PastTypes[0].Types) == 1 {
+					fmt.Println("past type : ", stats.PastTypes[0].Types[0].Type.Name)
+				} else {
+					fmt.Println("past type1 : ", stats.PastTypes[0].Types[0].Type.Name)
+					fmt.Println("past type2 : ", stats.PastTypes[0].Types[1].Type.Name)
+				}
+			}
+			fmt.Println("species name : ", stats.Species.Name)
+			if len(stats.Types) == 1 {
+				fmt.Println(stats.Types[0].Type.Name)
+			} else {
+				fmt.Println(stats.Types[0].Type.Name)
+				fmt.Println(stats.Types[1].Type.Name)
+			}
 			fmt.Println("base_happiness : ", stats2.BaseHappiness)
 			fmt.Println("capture_rate : ", stats2.CaptureRate)
 			fmt.Println("Color : ", stats2.Color.Name)

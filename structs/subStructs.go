@@ -31,10 +31,16 @@ type ResponseStats2 struct {
 			Url  string `json:"url"`
 		} `json:"version"`
 	} `json:"flavor_text_entries"`
-	FormDescriptions []string `json:"form_descriptions"`
-	FormsSwitchable  bool     `json:"forms_switchable"`
-	GenderRate       int      `json:"gender_rate"`
-	Genera           []struct {
+	FormDescriptions []struct {
+		Description string `json:"description"`
+		Language    struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"language"`
+	} `json:"form_descriptions"`
+	FormsSwitchable bool `json:"forms_switchable"`
+	GenderRate      int  `json:"gender_rate"`
+	Genera          []struct {
 		Genus    string `json:"genus"`
 		Language struct {
 			Name string `json:"name"`
