@@ -205,7 +205,9 @@ func ShowDatumById(c echo.Context) error {
 			// )
 			height := float64(stats.Height) * 0.1
 			weight := float64(stats.Weight) * 0.1
-			returns2["pokemonName"] = stats.Name
+			// var abilities []string
+			returns2["pokemonNameEn"] = stats.Name
+			returns2["pokemonNameJa"] = stats2.Names[0].Name
 			returns2["id"] = strconv.Itoa(stats.Id)
 			returns2["hp"] = strconv.Itoa(stats.Stats[0].BaseStat)
 			returns2["attack"] = strconv.Itoa(stats.Stats[1].BaseStat)

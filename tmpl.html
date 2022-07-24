@@ -6,8 +6,8 @@
         <title>go with html</title>
     </head>
     <header id="header">
-        <img src="./imgs/pokemonPictureBook.png" id="headerImage">
-        <form id="headerForm" action="http://127.0.0.1:1323/getdatumById" method="get" enctype="application/x-www-form-urlencoded">
+        <img src="./imgs/pokemonPictureBook.png" id="image">
+        <form id="form" action="http://127.0.0.1:1323/getdatumById" method="get" enctype="application/x-www-form-urlencoded">
             図鑑No.
             <input type="text" name="number">
             <input type="submit">
@@ -17,7 +17,8 @@
         <div id="divParent1">
             <img src="./imgs/monsterBall.png" id="picture1">
             <div id="divParent1Child1">
-                <h2 class="divParent1Child1Class1">{{ .pokemonName }}</h2>
+                <h2 class="divParent1Child1Class1">{{ .pokemonNameEn }}</h2>
+                <h2 class="divParent1Child1Class1">{{ .pokemonNameJa }}</h2>
                 <h3 class="divParent1Child1Class1">図鑑No.{{ .id }}</h3>
                 <div id="divParent1Child1Id1">
                     <img src="./imgs/male.png" class="imgs1">
@@ -27,21 +28,31 @@
         </div>
         <hr>
         <div id="divParent2"> 
-            <div id="divParent2Child1">
-                <p class="divParent2Child2P1">分類: {{ .genus }}</p>
-                <p class="divParent2Child2P1">高さ: {{ .height }}m 重さ: {{ .weight }}kg</p>
-                <p class="divParent2Child2P1">特性1: {{ .ability1 }}</p>
-                <p class="divParent2Child2P1">特性2: {{ .ability2 }}</p>
-                <p class="divParent2Child2P1">特性3: {{ .ability3 }}</p>
-            </div>
-            <div id="divParent2Child2">
-                <p>HP: {{ .hp }}</p> 
-                <p>こうげき: {{.attack}}</p>
-                <p>ぼうぎょ: {{ .block }}</p>
-                <p>とくこう: {{ .contact }}</p>
-                <p>とくぼう: {{ .defence }}</p>
-                <p>すばやさ: {{ .speed }}</p>
-            </div>
+            <ul id="inner">
+                <div id="separatedUl1">
+                    <li class="details">分類: {{ .genus }}</li>
+                    <li class="details">高さ: {{ .height }}m  重さ: {{ .weight }}kg</li>
+                </div>
+                <div id="separatedUl2">
+                    {{ if .ability1 }}
+                    <li class="details">特性1: {{ .ability1 }}</li>
+                    {{ end }}
+                    {{ if .ability2 }}
+                    <li class="details">特性2: {{ .ability2 }}</li>
+                    {{ end }}
+                    {{ if .ability3 }}
+                    <li class="details">特性3: {{ .ability3 }}</li>
+                    {{ end }}
+                </div>
+            </ul>
+            <ul id="inner2">
+                <li class="details">HP: {{ .hp }}</li>
+                <li class="details">こうげき: {{.attack}}</li>
+                <li class="details">ぼうぎょ: {{ .block }}</li>
+                <li class="details">とくこう: {{ .contact }}</li>
+                <li class="details">とくぼう: {{ .defence }}</li>
+                <li class="details">すばやさ: {{ .speed }}</li>
+            </ul>
         </div>
     </body>
 </html>
