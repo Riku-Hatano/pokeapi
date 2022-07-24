@@ -31,7 +31,7 @@
             <ul id="inner">
                 <div id="separatedUl1">
                     <li class="details">分類: {{ .genus }}</li>
-                    <li class="details">高さ: {{ .height }}m  重さ: {{ .weight }}kg</li>
+                    <li class="details">高さ: {{ .height }}m 重さ: {{ .weight }}kg</li>
                 </div>
                 <div id="separatedUl2">
                     {{ if .ability1 }}
@@ -53,6 +53,42 @@
                 <li class="details">とくぼう: {{ .defence }}</li>
                 <li class="details">すばやさ: {{ .speed }}</li>
             </ul>
+        </div>
+        <hr>
+        <div>
+            {{ if .text1 }}
+            <p>{{ .text1 }}</p>
+            {{ end }}
+            {{ if .text2 }}
+            <p>{{ .text2 }}</p>
+            {{ end }}
+            {{ if .text3 }}
+            <p>{{ .text3 }}</p>
+            {{ end }}
+            {{ if .text4 }}
+            <p>{{ .text4 }}</p>
+            {{ end }}
+            {{ if .text5 }}
+            <p>{{ .text5 }}</p>
+            {{ end }}
+            {{ if .text6 }}
+            <p>{{ .text6 }}</p>
+            {{ end }}
+            {{ if .text7 }}
+            <p>{{ .text7 }}</p>
+            {{ end }}
+            {{ if .text8 }}
+            <p>{{ .text8 }}</p>
+            {{ end }}
+            {{ if .text9 }}
+            <p>{{ .text9 }}</p>
+            {{ end }}
+            {{ if .text10 }}
+            <p>{{ .text10 }}</p>
+            {{ end }}
+            {{ if .text11 }}
+            <p>{{ .text11 }}</p>
+            {{ end }}
         </div>
     </body>
 </html>
