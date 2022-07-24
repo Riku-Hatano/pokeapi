@@ -7,7 +7,7 @@
     </head>
     <header id="header">
         <img src="./imgs/pokemonPictureBook.png" id="headerImage">
-        <form action="http://127.0.0.1:1323/getdatumById" method="get" enctype="application/x-www-form-urlencoded">
+        <form id="headerForm" action="http://127.0.0.1:1323/getdatumById" method="get" enctype="application/x-www-form-urlencoded">
             図鑑No.
             <input type="text" name="number">
             <input type="submit">
@@ -17,8 +17,8 @@
         <div id="divParent1">
             <img src="./imgs/monsterBall.png" id="picture1">
             <div id="divParent1Child1">
-                <h2 class="divParent1Child1Class1">{{ index . 1 }}</h2>
-                <h3 class="divParent1Child1Class1">図鑑No.{{ index . 0 }}</h3>
+                <h2 class="divParent1Child1Class1">{{ .pokemonName }}</h2>
+                <h3 class="divParent1Child1Class1">図鑑No.{{ .id }}</h3>
                 <div id="divParent1Child1Id1">
                     <img src="./imgs/male.png" class="imgs1">
                     <img src="./imgs/female.png" class="imgs1">
@@ -26,20 +26,22 @@
             </div>
         </div>
         <hr>
-        <div>
-            <h2>{{ index . 1 }}</h2>
-            <h3>詳しい情報</h3>
-           <p>HP: {{ index . 2 }}</p>
-           <p>こうげき: {{ index . 3 }}</p>
-           <p>ぼうぎょ: {{ index . 4 }}</p>
-           <p>とくこう: {{ index . 5 }}</p>
-           <p>とくぼう: {{ index . 6 }}</p>
-           <p>すばやさ: {{ index . 7 }}</p>
-            <p>more information : <a href="{{ index . 8 }}">click here</a></p>
-            <p>more and more : <a href="{{ index . 9 }}">click here</a></p>
-            <p>{{ index . 1 }}</p>
-            <p>{{ . }}</p>
+        <div id="divParent2"> 
+            <div id="divParent2Child1">
+                <p>分類: {{ .genus }}</p>
+                <p>高さ: {{ .height }} 重さ: {{ .weight }}</p>
+                <p>特性1: {{ .ability1 }}</p>
+                <p>特性2: {{ .ability2 }}</p>
+                <p>特性3: {{ .ability3 }}</p>
+            </div>
+            <div id="divParent2Child2">
+                <p>HP: {{ .hp }}</p> 
+                <p>こうげき: {{.attack}}</p>
+                <p>ぼうぎょ: {{ .block }}</p>
+                <p>とくこう: {{ .contact }}</p>
+                <p>とくぼう: {{ .defence }}</p>
+                <p>すばやさ: {{ .speed }}</p>
+            </div>
         </div>
-
     </body>
 </html>
