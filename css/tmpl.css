@@ -47,5 +47,21 @@
     background-color: gainsboro;
 }
 #divParent2Child1 {
+    margin: auto;
     background-color: #888888;
+    border-radius: 10px;
+    border: black;
+    width: 250px;
+    height: 250px;
+}
+#divParent2Child2 {
+    margin: auto;
+    background-color: #666666;
+    border-radius: 10px;
+    border: black;
+    width: 250px;
+    height: 250px;
+}
+.divParent2Child2P1 {
+    margin: auto;
 }

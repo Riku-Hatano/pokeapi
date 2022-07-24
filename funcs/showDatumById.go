@@ -203,6 +203,8 @@ func ShowDatumById(c echo.Context) error {
 			// 	strconv.Itoa(stats.Stats[5].BaseStat),
 			// 	stats2.Genera[0].Genus,
 			// )
+			height := float64(stats.Height) * 0.1
+			weight := float64(stats.Weight) * 0.1
 			returns2["pokemonName"] = stats.Name
 			returns2["id"] = strconv.Itoa(stats.Id)
 			returns2["hp"] = strconv.Itoa(stats.Stats[0].BaseStat)
@@ -212,8 +214,8 @@ func ShowDatumById(c echo.Context) error {
 			returns2["defence"] = strconv.Itoa(stats.Stats[4].BaseStat)
 			returns2["speed"] = strconv.Itoa(stats.Stats[5].BaseStat)
 			returns2["genus"] = stats2.Genera[0].Genus
-			returns2["height"] = strconv.Itoa(stats.Height)
-			returns2["weight"] = strconv.Itoa(stats.Weight)
+			returns2["height"] = strconv.FormatFloat(height, 'f', 1, 64)
+			returns2["weight"] = strconv.FormatFloat(weight, 'f', 1, 64)
 			// returns2["ability1"] = stats.Abilities[0].Ability.Name
 			// returns2["ability2"] = stats.Abilities[1].Ability.Name
 			// if stats.Abilities[2].Ability.Name != "" {
