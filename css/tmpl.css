@@ -11,6 +11,9 @@
     height: 60px;
     width: 200px;
 }
+#headerForm {
+    margin: auto;
+}
 #body {
     margin: 0px;
 }
@@ -36,8 +39,13 @@
     height: 200px;
     box-shadow: 5px 5px 5px 5px #888888;
 }
-/* #divParent1Child1Id1 {
-} */
 .divParent1Child1Class1 {
     user-select: none;
+}
+#divParent2 {
+    display: flex;
+    background-color: gainsboro;
+}
+#divParent2Child1 {
+    background-color: #888888;
 }

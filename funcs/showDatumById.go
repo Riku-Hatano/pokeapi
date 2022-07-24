@@ -87,7 +87,6 @@ func ShowDatumById(c echo.Context) error {
 			//pngファイル持ってくる処理終わり
 			////////////////////////////////////
 
-			var returns []string
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("/////////////////////////////info about searched pokemon in terminal///////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
@@ -144,6 +143,7 @@ func ShowDatumById(c echo.Context) error {
 			for i := 0; i < howManyTexts; i++ {
 				if stats2.FlavorTextEntries[i].Language.Name == "ja" {
 					fmt.Println("flavor_text_entries", i+1, " : ", stats2.FlavorTextEntries[i].FlavorText)
+					fmt.Println(stats2.FlavorTextEntries[i].Version.Name)
 				}
 			}
 			fmt.Println("form_descriptions : ", stats2.FormDescriptions)
@@ -187,12 +187,45 @@ func ShowDatumById(c echo.Context) error {
 			////////////////////////////////////
 			//template
 			////////////////////////////////////
-			returns = append(returns, strconv.Itoa(stats.Id), stats.Name, strconv.Itoa(stats.Stats[0].BaseStat), strconv.Itoa(stats.Stats[1].BaseStat), strconv.Itoa(stats.Stats[2].BaseStat), strconv.Itoa(stats.Stats[3].BaseStat), strconv.Itoa(stats.Stats[4].BaseStat), strconv.Itoa(stats.Stats[5].BaseStat),
-				url, stats.Species.Url)
-			// strconv.Itoa(stats.Stats[1].BaseStat)
+			// var returns []string
+			returns2 := map[string]string{}
+			var types []string
+			howManyTypes := len(stats.Types)
+			for i := 0; i < howManyTypes; i++ {
+				types = append(types, stats.Types[i].Type.Name)
+			}
+			// returns = append(returns, strconv.Itoa(stats.Id), stats.Name,
+			// 	strconv.Itoa(stats.Stats[0].BaseStat),
+			// 	strconv.Itoa(stats.Stats[1].BaseStat),
+			// 	strconv.Itoa(stats.Stats[2].BaseStat),
+			// 	strconv.Itoa(stats.Stats[3].BaseStat),
+			// 	strconv.Itoa(stats.Stats[4].BaseStat),
+			// 	strconv.Itoa(stats.Stats[5].BaseStat),
+			// 	stats2.Genera[0].Genus,
+			// )
+			returns2["pokemonName"] = stats.Name
+			returns2["id"] = strconv.Itoa(stats.Id)
+			returns2["hp"] = strconv.Itoa(stats.Stats[0].BaseStat)
+			returns2["attack"] = strconv.Itoa(stats.Stats[1].BaseStat)
+			returns2["block"] = strconv.Itoa(stats.Stats[2].BaseStat)
+			returns2["contact"] = strconv.Itoa(stats.Stats[3].BaseStat)
+			returns2["defence"] = strconv.Itoa(stats.Stats[4].BaseStat)
+			returns2["speed"] = strconv.Itoa(stats.Stats[5].BaseStat)
+			returns2["genus"] = stats2.Genera[0].Genus
+			returns2["height"] = strconv.Itoa(stats.Height)
+			returns2["weight"] = strconv.Itoa(stats.Weight)
+			// returns2["ability1"] = stats.Abilities[0].Ability.Name
+			// returns2["ability2"] = stats.Abilities[1].Ability.Name
+			// if stats.Abilities[2].Ability.Name != "" {
+			// 	returns2["ability3"] = stats.Abilities[2].Ability.Name
+			// }
+			for i := 0; i < howManyAbilities; i++ {
+				returns2["ability"+strconv.Itoa(i+1)] = stats.Abilities[i].Ability.Name
+			}
+			fmt.Println(returns2)
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
-			return t.Execute(w, returns)
+			return t.Execute(w, returns2)
 			/////////////////////////////////////
 			//template終わり
 			/////////////////////////////////////
