@@ -140,10 +140,12 @@ func ShowDatumById(c echo.Context) error {
 			fmt.Println("evolution_chain : ", stats2.EvolutionChain.Url)
 			fmt.Println("evoluves_form_species : ", stats2.EvoluvesFromSpecies.Name)
 			howManyTexts := len(stats2.FlavorTextEntries)
+			var texts []string
 			for i := 0; i < howManyTexts; i++ {
 				if stats2.FlavorTextEntries[i].Language.Name == "ja" {
 					fmt.Println("flavor_text_entries", i+1, " : ", stats2.FlavorTextEntries[i].FlavorText)
 					fmt.Println(stats2.FlavorTextEntries[i].Version.Name)
+					texts = append(texts, stats2.FlavorTextEntries[i].FlavorText)
 				}
 			}
 			fmt.Println("form_descriptions : ", stats2.FormDescriptions)
@@ -221,7 +223,10 @@ func ShowDatumById(c echo.Context) error {
 			for i := 0; i < howManyAbilities; i++ {
 				returns2["ability"+strconv.Itoa(i+1)] = stats.Abilities[i].Ability.Name
 			}
-			fmt.Println(returns2)
+			for i := 0; i < len(texts); i++ {
+				returns2["text"+strconv.Itoa(i+1)] = texts[i]
+				fmt.Println("text", i, " ", texts[i])
+			}
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
 			return t.Execute(w, returns2)

@@ -51,7 +51,7 @@
     flex-flow: column;
     margin: auto;
     justify-content: space-around;
-    width: 300px;
+    width: 400px;
     height: 125px;
 }
 #inner2 {
@@ -61,7 +61,7 @@
     justify-content: space-around;
     border: solid 6px #dddddd;
     border-radius: 10px;
-    width: 300px;
+    width: 400px;
     height: 250px;
 }
 #separatedUl1 {
