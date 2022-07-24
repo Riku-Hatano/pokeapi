@@ -216,11 +216,6 @@ func ShowDatumById(c echo.Context) error {
 			returns2["genus"] = stats2.Genera[0].Genus
 			returns2["height"] = strconv.FormatFloat(height, 'f', 1, 64)
 			returns2["weight"] = strconv.FormatFloat(weight, 'f', 1, 64)
-			// returns2["ability1"] = stats.Abilities[0].Ability.Name
-			// returns2["ability2"] = stats.Abilities[1].Ability.Name
-			// if stats.Abilities[2].Ability.Name != "" {
-			// 	returns2["ability3"] = stats.Abilities[2].Ability.Name
-			// }
 			for i := 0; i < howManyAbilities; i++ {
 				returns2["ability"+strconv.Itoa(i+1)] = stats.Abilities[i].Ability.Name
 			}
