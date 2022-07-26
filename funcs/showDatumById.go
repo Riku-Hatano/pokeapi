@@ -180,6 +180,7 @@ func ShowDatumById(c echo.Context) error {
 			}
 			fmt.Println(stats2.Shape.Name)
 			howManyVarieties := len(stats2.Varieties)
+			fmt.Println(howManyVarieties)
 			for i := 0; i < howManyVarieties; i++ {
 				fmt.Println("varieties", i+1, " : ", stats2.Varieties[i].Pokemon.Name)
 			}
@@ -189,8 +190,7 @@ func ShowDatumById(c echo.Context) error {
 			////////////////////////////////////
 			//template
 			////////////////////////////////////
-			// var returns []string
-			returns2 := map[string]string{}
+			returns2 := map[string]interface{}{}
 			var types []string
 			howManyTypes := len(stats.Types)
 			for i := 0; i < howManyTypes; i++ {
@@ -218,6 +218,10 @@ func ShowDatumById(c echo.Context) error {
 				returns2["textVersion"+strconv.Itoa(i+1)] = stats2.FlavorTextEntries[i].Version.Name
 				fmt.Println("text", i, " ", texts[i], "(", stats2.FlavorTextEntries[i].Version.Name, ")より")
 			}
+			for i = 0; i < howManyTypes; i++ {
+				returns2["type"+strconv.Itoa(i+1)] = stats.Types[i].Type.Name
+			}
+			fmt.Println(returns2)
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
 			return t.Execute(w, returns2)

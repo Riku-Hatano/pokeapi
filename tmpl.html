@@ -16,7 +16,7 @@
     <body id="body">
         <div id="divParent1">
             <div id="picture1Container">
-                <div class="backAndForth" onclick="getdatumById()" ></div>
+                <div class="backAndForth"></div>
                 <img src="./imgs/monsterBall.png" id="picture1">
                 <div class="backAndForth"></div>
             </div>
@@ -51,7 +51,7 @@
             </ul>
             <ul id="inner2">
                 <li class="details">HP: {{ .hp }}</li>
-                <li class="details">こうげき: {{.attack}}</li>
+                <li class="details">こうげき: {{ .attack }}</li>
                 <li class="details">ぼうぎょ: {{ .block }}</li>
                 <li class="details">とくこう: {{ .contact }}</li>
                 <li class="details">とくぼう: {{ .defence }}</li>
@@ -92,6 +92,14 @@
             {{ end }}
             {{ if .text11 }}
             <p>{{ .text11 }}(ポケモン{{ .textVersion11 }}より)</p>
+            {{ end }}
+        </div>
+        <div>
+            {{ if .type1 }}
+            <p>{{ .type1 }}</p>
+            {{ end }}
+            {{ if .type2 }}
+            <p>{{ .type2 }}</p>
             {{ end }}
         </div>
     </body>
