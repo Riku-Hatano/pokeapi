@@ -17,7 +17,7 @@ func ShowDatumById(c echo.Context) error {
 	for i := 0; i < 1140; i++ {
 		if name == Pokemons[i].Id {
 			//////////////////////////////////////
-			//種族値、特性表示
+			//外部apiからデータを持ってくる処理
 			//////////////////////////////////////
 			url := "https://pokeapi.co/api/v2/pokemon/" + strconv.Itoa(i+1)
 			res, err := http.Get(url)
@@ -49,7 +49,7 @@ func ShowDatumById(c echo.Context) error {
 				panic(err)
 			}
 			////////////////////////////////////
-			//種族値表示終わり
+			//外部apiからデータを持ってくる処理終わり
 			////////////////////////////////////
 			////////////////////////////////////
 			//pngファイル持ってくる処理
@@ -196,18 +196,8 @@ func ShowDatumById(c echo.Context) error {
 			for i := 0; i < howManyTypes; i++ {
 				types = append(types, stats.Types[i].Type.Name)
 			}
-			// returns = append(returns, strconv.Itoa(stats.Id), stats.Name,
-			// 	strconv.Itoa(stats.Stats[0].BaseStat),
-			// 	strconv.Itoa(stats.Stats[1].BaseStat),
-			// 	strconv.Itoa(stats.Stats[2].BaseStat),
-			// 	strconv.Itoa(stats.Stats[3].BaseStat),
-			// 	strconv.Itoa(stats.Stats[4].BaseStat),
-			// 	strconv.Itoa(stats.Stats[5].BaseStat),
-			// 	stats2.Genera[0].Genus,
-			// )
 			height := float64(stats.Height) * 0.1
 			weight := float64(stats.Weight) * 0.1
-			// var abilities []string
 			returns2["pokemonNameEn"] = stats.Name
 			returns2["pokemonNameJa"] = stats2.Names[0].Name
 			returns2["id"] = strconv.Itoa(stats.Id)
@@ -225,7 +215,8 @@ func ShowDatumById(c echo.Context) error {
 			}
 			for i := 0; i < len(texts); i++ {
 				returns2["text"+strconv.Itoa(i+1)] = texts[i]
-				fmt.Println("text", i, " ", texts[i])
+				returns2["textVersion"+strconv.Itoa(i+1)] = stats2.FlavorTextEntries[i].Version.Name
+				fmt.Println("text", i, " ", texts[i], "(", stats2.FlavorTextEntries[i].Version.Name, ")より")
 			}
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
