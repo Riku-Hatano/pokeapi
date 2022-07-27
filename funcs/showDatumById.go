@@ -219,7 +219,44 @@ func ShowDatumById(c echo.Context) error {
 				fmt.Println("text", i, " ", texts[i], "(", stats2.FlavorTextEntries[i].Version.Name, ")より")
 			}
 			for i = 0; i < howManyTypes; i++ {
-				returns2["type"+strconv.Itoa(i+1)] = stats.Types[i].Type.Name
+				switch stats.Types[i].Type.Name {
+				case "normal":
+					returns2["type"+strconv.Itoa(i+1)] = "ノーマル"
+				case "fire":
+					returns2["type"+strconv.Itoa(i+1)] = "ほのお"
+				case "water":
+					returns2["type"+strconv.Itoa(i+1)] = "みず"
+				case "electric":
+					returns2["type"+strconv.Itoa(i+1)] = "でんき"
+				case "grass":
+					returns2["type"+strconv.Itoa(i+1)] = "くさ"
+				case "ice":
+					returns2["type"+strconv.Itoa(i+1)] = "こおり"
+				case "fighting":
+					returns2["type"+strconv.Itoa(i+1)] = "かくとう"
+				case "poison":
+					returns2["type"+strconv.Itoa(i+1)] = "どく"
+				case "ground":
+					returns2["type"+strconv.Itoa(i+1)] = "じめん"
+				case "flying":
+					returns2["type"+strconv.Itoa(i+1)] = "ひこう"
+				case "psychic":
+					returns2["type"+strconv.Itoa(i+1)] = "エスパー"
+				case "bug":
+					returns2["type"+strconv.Itoa(i+1)] = "むし"
+				case "rock":
+					returns2["type"+strconv.Itoa(i+1)] = "いわ"
+				case "ghost":
+					returns2["type"+strconv.Itoa(i+1)] = "ゴースト"
+				case "dragon":
+					returns2["type"+strconv.Itoa(i+1)] = "ドラゴン"
+				case "dark":
+					returns2["type"+strconv.Itoa(i+1)] = "あく"
+				case "steel":
+					returns2["type"+strconv.Itoa(i+1)] = "はがね"
+				case "fairy":
+					returns2["type"+strconv.Itoa(i+1)] = "フェアリー"
+				}
 			}
 			fmt.Println(returns2)
 			w := c.Response()
