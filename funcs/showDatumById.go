@@ -211,7 +211,21 @@ func ShowDatumById(c echo.Context) error {
 			returns2["height"] = strconv.FormatFloat(height, 'f', 1, 64)
 			returns2["weight"] = strconv.FormatFloat(weight, 'f', 1, 64)
 			for i := 0; i < howManyAbilities; i++ {
-				returns2["ability"+strconv.Itoa(i+1)] = stats.Abilities[i].Ability.Name
+				url3 := stats.Abilities[i].Ability.Url
+				res3, err := http.Get(url3)
+				if err != nil {
+					panic(err)
+				}
+				body4, err := ioutil.ReadAll(res3.Body)
+				if err != nil {
+					panic(err)
+				}
+				var stats3 structs.ResponseStats3
+				defer res3.Body.Close()
+				if err := json.Unmarshal(body4, &stats3); err != nil {
+					panic(err)
+				}
+				returns2["ability"+strconv.Itoa(i+1)] = stats3.Names[0].Name
 			}
 			for i := 0; i < len(texts); i++ {
 				returns2["text"+strconv.Itoa(i+1)] = texts[i]
@@ -258,7 +272,7 @@ func ShowDatumById(c echo.Context) error {
 					returns2["type"+strconv.Itoa(i+1)] = "フェアリー"
 				}
 			}
-			fmt.Println(returns2)
+
 			w := c.Response()
 			t, _ := template.ParseFiles("tmpl.html")
 			return t.Execute(w, returns2)
