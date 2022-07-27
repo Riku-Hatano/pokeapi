@@ -98,6 +98,9 @@
             {{ if .type1 }}
             <p>{{ .type1 }}</p>
             {{ end }}
+            {{ if eq .type1 "ノーマル" }}
+            <img src="./imgs/female.png">
+            {{ end }}
             {{ if .type2 }}
             <p>{{ .type2 }}</p>
             {{ end }}
