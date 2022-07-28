@@ -48,6 +48,31 @@ func ShowDatumById(c echo.Context) error {
 			if err := json.Unmarshal(body3, &stats2); err != nil {
 				panic(err)
 			}
+			////////////////////////////////////////////////////////
+			//画像ダウンロードする処理
+			////////////////////////////////////////////////////////
+			// for i = 1; i < 898; i++ {
+			// 	url := "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/" + strconv.Itoa(i) + ".png"
+			// 	res, err := http.Get(url)
+			// 	if err != nil {
+			// 		panic(err)
+			// 	}
+			// 	body, err := ioutil.ReadAll(res.Body)
+			// 	if err != nil {
+			// 		panic(err)
+			// 	}
+			// 	file, err := os.Create("./imgs/pokemonimgs/" + "pokemon" + strconv.Itoa(i) + ".png")
+			// 	if err != nil {
+			// 		panic(err)
+			// 	}
+			// 	file.Write(body)
+			// 	defer file.Close()
+			// 	defer res.Body.Close()
+			// }
+			////////////////////////////////////
+			//画像ダウンロードする処理終わり
+			////////////////////////////////////
+
 			////////////////////////////////////
 			//外部apiからデータを持ってくる処理終わり
 			////////////////////////////////////
