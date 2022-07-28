@@ -112,7 +112,7 @@ type ResponseStats3 struct {
 			Url  string `json:"url"`
 		} `json:"language"`
 		ShortEffect string `json:"short_effect"`
-	} `effect_entries`
+	} `json:"effect_entries"`
 	FlavorTextEntries []struct {
 		FlavorText string `json:"flavor_text"`
 		Language   struct {

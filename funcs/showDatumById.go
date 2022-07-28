@@ -199,7 +199,18 @@ func ShowDatumById(c echo.Context) error {
 			height := float64(stats.Height) * 0.1
 			weight := float64(stats.Weight) * 0.1
 			returns2["pokemonNameEn"] = stats.Name
-			returns2["pokemonNameJa"] = stats2.Names[0].Name
+			if stats2.Names[0].Language.Name != "ja-Hrkt" {
+				for i := 0; i < len(stats2.Names); i++ {
+					if stats2.Names[i].Language.Name == "ja-Hrkt" {
+						returns2["pokemonNameJa"] = stats2.Names[i].Name
+						returns2["genus"] = stats2.Genera[i].Genus
+
+					}
+				}
+			} else {
+				returns2["pokemonNameJa"] = stats2.Names[0].Name
+				returns2["genus"] = stats2.Genera[0].Genus
+			}
 			returns2["id"] = strconv.Itoa(stats.Id)
 			returns2["hp"] = strconv.Itoa(stats.Stats[0].BaseStat)
 			returns2["attack"] = strconv.Itoa(stats.Stats[1].BaseStat)
@@ -207,7 +218,6 @@ func ShowDatumById(c echo.Context) error {
 			returns2["contact"] = strconv.Itoa(stats.Stats[3].BaseStat)
 			returns2["defence"] = strconv.Itoa(stats.Stats[4].BaseStat)
 			returns2["speed"] = strconv.Itoa(stats.Stats[5].BaseStat)
-			returns2["genus"] = stats2.Genera[0].Genus
 			returns2["height"] = strconv.FormatFloat(height, 'f', 1, 64)
 			returns2["weight"] = strconv.FormatFloat(weight, 'f', 1, 64)
 			for i := 0; i < howManyAbilities; i++ {
