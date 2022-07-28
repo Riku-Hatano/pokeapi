@@ -13,6 +13,7 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Static("/imgs", "./imgs")
 	e.Static("/css", "./css")
+	e.Static("/js", "./js")
 	e.GET("/", funcs.ShowPokemon)
 	e.GET("/getdatumByName", funcs.ShowDatumByName)
 	e.GET("/getdatumById", funcs.ShowDatumById)
