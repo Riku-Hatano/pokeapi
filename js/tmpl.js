@@ -1,4 +1,3 @@
 function before() {
-    console.log("done");
+    console.log("done")
 }
-before()
