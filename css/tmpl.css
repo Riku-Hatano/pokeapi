@@ -15,16 +15,16 @@
     margin: auto;
 }
 #body {
-    margin: 0px;
+    margin: 3px;
 }
 #divParent1 {
     display: flex;
-    height: 230px;
-    background-color: #ffffff;
+    height: 235px;
 }
 #picture1Container {
     display: flex;
     margin: auto;
+    margin-top: 0px;
     width: 220px;
 }
 #picture1 {
@@ -37,6 +37,18 @@
     height: 50px;
     margin: auto;
     background-color: black;
+}
+#divContainer {
+    display: flex;
+    margin: auto;
+}
+#typeContainer {
+    display: flex;
+    height: 40px;
+}
+.type {
+    margin: auto;
+    background-color: gainsboro;
 }
 .imgs1 {
     width: 40px;
