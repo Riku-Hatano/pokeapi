@@ -15,10 +15,20 @@
     </header>
     <body id="body">
         <div id="divParent1">
-            <div id="picture1Container">
-                <div class="backAndForth" onclick="before()"></div>
-                <img src="./imgs/pokemonImgs/pokemon{{ .id }}.png" id="picture1">
-                <div class="backAndForth"></div>
+            <div>
+                <div id="picture1Container">
+                    <div class="backAndForth" onclick="before()"></div>
+                    <img src="./imgs/pokemonImgs/pokemon{{ .id }}.png" id="picture1">
+                    <div class="backAndForth"></div>
+                </div>
+                <div id="typeContainer">
+                    {{ if .type1 }}
+                    <div class="type">{{ .type1 }}</div>
+                    {{ end }}
+                    {{ if .type2 }}
+                    <div class="type">{{ .type2 }}</div>
+                    {{ end }}
+                </div>
             </div>
             <div id="divParent1Child1">
                 <h2 class="divParent1Child1Class1">{{ .pokemonNameEn }}</h2>
@@ -99,7 +109,6 @@
             <p>{{ .type1 }}</p>
             {{ end }}
             {{ if eq .type1 "ノーマル" }}
-            <!-- <img src="./imgs/female.png"> -->
             {{ end }}
             {{ if .type2 }}
             <p>{{ .type2 }}</p>
