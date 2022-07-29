@@ -216,11 +216,7 @@ func ShowDatumById(c echo.Context) error {
 			//template
 			////////////////////////////////////
 			returns2 := map[string]interface{}{}
-			var types []string
 			howManyTypes := len(stats.Types)
-			for i := 0; i < howManyTypes; i++ {
-				types = append(types, stats.Types[i].Type.Name)
-			}
 			height := float64(stats.Height) * 0.1
 			weight := float64(stats.Weight) * 0.1
 			returns2["pokemonNameEn"] = stats.Name
