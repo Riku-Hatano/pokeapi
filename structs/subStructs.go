@@ -145,5 +145,17 @@ type ResponseStats3 struct {
 			Url  string `json:"url"`
 		} `json:"pokemon"`
 		Slot int `json:"slot"`
-	}
+	} `json:"pokemon"`
+}
+
+type ResponseStats4 struct {
+	Id    int    `json:"id"`
+	Name  string `json:"string"`
+	Names []struct {
+		Language struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"language"`
+		Name string `json:"name"`
+	} `json:"names"`
 }
