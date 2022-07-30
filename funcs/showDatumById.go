@@ -116,99 +116,120 @@ func ShowDatumById(c echo.Context) error {
 			fmt.Println("/////////////////////////////info about searched pokemon in terminal///////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			howManyAbilities := len(stats.Abilities)
-			for i := 0; i < howManyAbilities; i++ {
-				fmt.Println("ability", i, ": ", stats.Abilities[i].Ability.Name)
-			}
-			fmt.Println("base experience : ", stats.BaseExperience)
-			fmt.Println("forms : ", stats.Forms[0].Name)
-			if len(stats.GameIndices) != 0 {
-				fmt.Println("game indices : ", stats.GameIndices[0].GameIndex, " game version: ", stats.GameIndices[0].Version.Name)
-			}
-			fmt.Println("height : ", stats.Height)
-			fmt.Println("wehght : ", stats.Weight)
-			howManyHeldItems := len(stats.HeldItems)
-			for i := 0; i < howManyHeldItems; i++ {
-				fmt.Println("held item", i, ": ", stats.HeldItems[i].Item.Name)
-			}
-			fmt.Println("id : ", stats.Id)
-			fmt.Println("is default : ", stats.IsDefault)
-			fmt.Println("location area encounter : ", stats.LocationAreaEncounters)
+			// for i := 0; i < howManyAbilities; i++ {
+			// 	fmt.Println("ability", i, ": ", stats.Abilities[i].Ability.Name)
+			// }
+			// fmt.Println("base experience : ", stats.BaseExperience)
+			// fmt.Println("forms : ", stats.Forms[0].Name)
+			// if len(stats.GameIndices) != 0 {
+			// 	fmt.Println("game indices : ", stats.GameIndices[0].GameIndex, " game version: ", stats.GameIndices[0].Version.Name)
+			// }
+			// fmt.Println("height : ", stats.Height)
+			// fmt.Println("wehght : ", stats.Weight)
+			// howManyHeldItems := len(stats.HeldItems)
+			// for i := 0; i < howManyHeldItems; i++ {
+			// 	fmt.Println("held item", i, ": ", stats.HeldItems[i].Item.Name)
+			// }
+			// fmt.Println("id : ", stats.Id)
+			// fmt.Println("is default : ", stats.IsDefault)
+			// fmt.Println("location area encounter : ", stats.LocationAreaEncounters)
 			howManyMoves := len(stats.Moves)
 			for i := 0; i < howManyMoves; i++ {
 				fmt.Println("move : ", stats.Moves[i].Move.Name) //世代によって覚える技が違うので後で調整する(game indiceみたいな感じにやればできるかも)
+				fmt.Println("url : ", stats.Moves[i].Move.Url)
 			}
-			fmt.Println("name : ", stats.Name)
-			fmt.Println("order : ", stats.Order)
-			if len(stats.PastTypes) != 0 {
-				fmt.Println("generation : ", stats.PastTypes[0].Generation.Name)
-				if len(stats.PastTypes[0].Types) == 1 {
-					fmt.Println("past type : ", stats.PastTypes[0].Types[0].Type.Name)
-				} else {
-					fmt.Println("past type1 : ", stats.PastTypes[0].Types[0].Type.Name)
-					fmt.Println("past type2 : ", stats.PastTypes[0].Types[1].Type.Name)
+			url5 := stats.Moves[0].Move.Url
+			res5, err := http.Get(url5)
+			if err != nil {
+				panic(err)
+			}
+			body6, err := ioutil.ReadAll(res5.Body)
+			if err != nil {
+				panic(err)
+			}
+			var stats5 structs.ResponseStatsMoves
+			defer res5.Body.Close()
+			if err := json.Unmarshal(body6, &stats5); err != nil {
+				panic(err)
+			}
+			for i := 0; i < len(stats5.FalvorTextEntries); i++ {
+				if stats5.FalvorTextEntries[i].Language.Name == "ja" {
+					fmt.Println("text", i, " : ", stats5.FalvorTextEntries[i].FlavorText)
 				}
 			}
-			fmt.Println("species name : ", stats.Species.Name)
-			if len(stats.Types) == 1 {
-				fmt.Println(stats.Types[0].Type.Name)
-			} else {
-				fmt.Println(stats.Types[0].Type.Name)
-				fmt.Println(stats.Types[1].Type.Name)
-			}
-			fmt.Println("base_happiness : ", stats2.BaseHappiness)
-			fmt.Println("capture_rate : ", stats2.CaptureRate)
-			fmt.Println("Color : ", stats2.Color.Name)
-			howManyEggGroups := len(stats2.EggGroups)
-			for i := 0; i < howManyEggGroups; i++ {
-				fmt.Println("egg_goups", i+1, " : ", stats2.EggGroups[i].Name)
-			}
-			fmt.Println("evolution_chain : ", stats2.EvolutionChain.Url)
-			fmt.Println("evoluves_form_species : ", stats2.EvoluvesFromSpecies.Name)
-			howManyTexts := len(stats2.FlavorTextEntries)
+			// fmt.Println("name : ", stats.Name)
+			// fmt.Println("order : ", stats.Order)
+			// if len(stats.PastTypes) != 0 {
+			// 	fmt.Println("generation : ", stats.PastTypes[0].Generation.Name)
+			// 	if len(stats.PastTypes[0].Types) == 1 {
+			// 		fmt.Println("past type : ", stats.PastTypes[0].Types[0].Type.Name)
+			// 	} else {
+			// 		fmt.Println("past type1 : ", stats.PastTypes[0].Types[0].Type.Name)
+			// 		fmt.Println("past type2 : ", stats.PastTypes[0].Types[1].Type.Name)
+			// 	}
+			// }
+			// fmt.Println("species name : ", stats.Species.Name)
+			// if len(stats.Types) == 1 {
+			// 	fmt.Println(stats.Types[0].Type.Name)
+			// } else {
+			// 	fmt.Println(stats.Types[0].Type.Name)
+			// 	fmt.Println(stats.Types[1].Type.Name)
+			// }
+			// fmt.Println("base_happiness : ", stats2.BaseHappiness)
+			// fmt.Println("capture_rate : ", stats2.CaptureRate)
+			// fmt.Println("Color : ", stats2.Color.Name)
+			// howManyEggGroups := len(stats2.EggGroups)
+			// for i := 0; i < howManyEggGroups; i++ {
+			// 	fmt.Println("egg_goups", i+1, " : ", stats2.EggGroups[i].Name)
+			// }
+			// fmt.Println("evolution_chain : ", stats2.EvolutionChain.Url)
+			// fmt.Println("evoluves_form_species : ", stats2.EvoluvesFromSpecies.Name)
+			// howManyTexts := len(stats2.FlavorTextEntries)
 			var texts []string
-			for i := 0; i < howManyTexts; i++ {
-				if stats2.FlavorTextEntries[i].Language.Name == "ja" {
-					fmt.Println("flavor_text_entries", i+1, " : ", stats2.FlavorTextEntries[i].FlavorText)
-					fmt.Println(stats2.FlavorTextEntries[i].Version.Name)
-					texts = append(texts, stats2.FlavorTextEntries[i].FlavorText)
-				}
-			}
-			fmt.Println("form_descriptions : ", stats2.FormDescriptions)
-			fmt.Println("forms_sweitchable : ", stats2.FormsSwitchable)
-			fmt.Println("gender_rate : ", stats2.GenderRate)
-			howManyGeneras := len(stats2.Genera)
-			for i := 0; i < howManyGeneras; i++ {
-				fmt.Println("genera", i+1, " : ", stats2.Genera[i].Genus)
-			}
-			fmt.Println("generation : ", stats2.Generation.Name)
-			fmt.Println("growth_rate : ", stats2.GrowthRate.Name)
-			fmt.Println("habitat : ", stats2.Habitat.Name)
-			fmt.Println("has_gender_differences : ", stats2.HasGenderDifferences)
-			fmt.Println("hatch_counter : ", stats2.HatchCounter)
-			fmt.Println("Id : ", stats2.Id)
-			fmt.Println("is_baby : ", stats2.IsBaby)
-			fmt.Println("is_legendary : ", stats2.IsLegendary)
-			fmt.Println("is_mythical : ", stats2.IsMythical)
-			fmt.Println("name : ", stats2.Name)
-			howManyNames := len(stats2.Names)
-			for i := 0; i < howManyNames; i++ {
-				fmt.Println("names", i+1, " : ", stats2.Names[i].Name)
-			}
-			fmt.Println("order : ", stats2.Order)
-			howManyPal := len(stats2.PalParkEncounters)
-			for i := 0; i < howManyPal; i++ {
-				fmt.Println("pal_park_encounters", i+1, " : ", stats2.PalParkEncounters[i].Area.Name)
-			}
-			howManyPokedexes := len(stats2.PokedexNumbers)
-			for i := 0; i < howManyPokedexes; i++ {
-				fmt.Println(stats2.PokedexNumbers[i].Pokedex.Name, " : ", stats2.PokedexNumbers[i].EntryNumber)
-			}
-			fmt.Println(stats2.Shape.Name)
-			howManyVarieties := len(stats2.Varieties)
-			fmt.Println(howManyVarieties)
-			for i := 0; i < howManyVarieties; i++ {
-				fmt.Println("varieties", i+1, " : ", stats2.Varieties[i].Pokemon.Name)
-			}
+			// for i := 0; i < howManyTexts; i++ {
+			// 	if stats2.FlavorTextEntries[i].Language.Name == "ja" {
+			// 		fmt.Println("flavor_text_entries", i+1, " : ", stats2.FlavorTextEntries[i].FlavorText)
+			// 		fmt.Println(stats2.FlavorTextEntries[i].Version.Name)
+			// 		texts = append(texts, stats2.FlavorTextEntries[i].FlavorText)
+			// 	}
+			// }
+			// fmt.Println("form_descriptions : ", stats2.FormDescriptions)
+			// fmt.Println("forms_sweitchable : ", stats2.FormsSwitchable)
+			// fmt.Println("gender_rate : ", stats2.GenderRate)
+			// howManyGeneras := len(stats2.Genera)
+			// for i := 0; i < howManyGeneras; i++ {
+			// 	fmt.Println("genera", i+1, " : ", stats2.Genera[i].Genus)
+			// }
+			// fmt.Println("generation : ", stats2.Generation.Name)
+			// fmt.Println("growth_rate : ", stats2.GrowthRate.Name)
+			// fmt.Println("habitat : ", stats2.Habitat.Name)
+			// fmt.Println("has_gender_differences : ", stats2.HasGenderDifferences)
+			// fmt.Println("hatch_counter : ", stats2.HatchCounter)
+			// fmt.Println("Id : ", stats2.Id)
+			// fmt.Println("is_baby : ", stats2.IsBaby)
+			// fmt.Println("is_legendary : ", stats2.IsLegendary)
+			// fmt.Println("is_mythical : ", stats2.IsMythical)
+			// fmt.Println("name : ", stats2.Name)
+			// howManyNames := len(stats2.Names)
+			// for i := 0; i < howManyNames; i++ {
+			// 	fmt.Println("names", i+1, " : ", stats2.Names[i].Name)
+			// }
+			// fmt.Println("order : ", stats2.Order)
+			// howManyPal := len(stats2.PalParkEncounters)
+			// for i := 0; i < howManyPal; i++ {
+			// 	fmt.Println("pal_park_encounters", i+1, " : ", stats2.PalParkEncounters[i].Area.Name)
+			// }
+			// howManyPokedexes := len(stats2.PokedexNumbers)
+			// for i := 0; i < howManyPokedexes; i++ {
+			// 	fmt.Println(stats2.PokedexNumbers[i].Pokedex.Name, " : ", stats2.PokedexNumbers[i].EntryNumber)
+			// 	fmt.Println(stats2.FlavorTextEntries[i].Version.Url)
+			// }
+			// fmt.Println(stats2.Shape.Name)
+			// howManyVarieties := len(stats2.Varieties)
+			// fmt.Println(howManyVarieties)
+			// for i := 0; i < howManyVarieties; i++ {
+			// 	fmt.Println("varieties", i+1, " : ", stats2.Varieties[i].Pokemon.Name)
+			// }
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
 			fmt.Println("///////////////////////////////////////////////////////////////////////////////////////////")
@@ -225,7 +246,6 @@ func ShowDatumById(c echo.Context) error {
 					if stats2.Names[i].Language.Name == "ja-Hrkt" {
 						returns2["pokemonNameJa"] = stats2.Names[i].Name
 						returns2["genus"] = stats2.Genera[i].Genus
-
 					}
 				}
 			} else {
@@ -260,8 +280,23 @@ func ShowDatumById(c echo.Context) error {
 			}
 			for i := 0; i < len(texts); i++ {
 				returns2["text"+strconv.Itoa(i+1)] = texts[i]
-				returns2["textVersion"+strconv.Itoa(i+1)] = stats2.FlavorTextEntries[i].Version.Name
-				fmt.Println("text", i, " ", texts[i], "(", stats2.FlavorTextEntries[i].Version.Name, ")より")
+				url4 := stats2.FlavorTextEntries[i].Version.Url
+				res4, err := http.Get(url4)
+				if err != nil {
+					panic(err)
+				}
+				body5, err := ioutil.ReadAll(res4.Body)
+				if err != nil {
+					panic(err)
+				}
+				var stats4 structs.ResponseStats4
+				defer res4.Body.Close()
+				if err := json.Unmarshal(body5, &stats4); err != nil {
+					panic(err)
+				}
+				returns2["textVersionEn"+strconv.Itoa(i+1)] = stats2.FlavorTextEntries[i].Version.Name
+				returns2["textVersion"+strconv.Itoa(i+1)] = stats4.Names[0].Name
+				fmt.Println("text", i, " ", texts[i], "(", stats4.Names[0].Name, ")より")
 			}
 			for i = 0; i < howManyTypes; i++ {
 				switch stats.Types[i].Type.Name {
