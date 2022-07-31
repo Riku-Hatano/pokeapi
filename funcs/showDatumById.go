@@ -133,31 +133,33 @@ func ShowDatumById(c echo.Context) error {
 			// fmt.Println("id : ", stats.Id)
 			// fmt.Println("is default : ", stats.IsDefault)
 			// fmt.Println("location area encounter : ", stats.LocationAreaEncounters)
-			howManyMoves := len(stats.Moves)
-			for i := 0; i < howManyMoves; i++ {
-				fmt.Println("move : ", stats.Moves[i].Move.Name) //世代によって覚える技が違うので後で調整する(game indiceみたいな感じにやればできるかも)
-				fmt.Println("url : ", stats.Moves[i].Move.Url)
-				url5 := stats.Moves[i].Move.Url
-				res5, err := http.Get(url5)
-				if err != nil {
-					panic(err)
-				}
-				body6, err := ioutil.ReadAll(res5.Body)
-				if err != nil {
-					panic(err)
-				}
-				defer res5.Body.Close()
-				var stats5 structs.ResponseStatsMoves
-				if err := json.Unmarshal(body6, &stats5); err != nil {
-					panic(err)
-				}
-				for j := 0; j < len(stats5.FalvorTextEntries); j++ {
-					if stats5.FalvorTextEntries[j].Language.Name == "ja" {
-						fmt.Println("text", j, " : ", stats5.FalvorTextEntries[j].FlavorText)
-						break
-					}
-				}
-			}
+
+			// howManyMoves := len(stats.Moves)
+			// var stats5 structs.ResponseStatsMoves
+			// for i := 0; i < howManyMoves; i++ {
+			// 	fmt.Println("move : ", stats.Moves[i].Move.Name) //世代によって覚える技が違うので後で調整する(game indiceみたいな感じにやればできるかも)
+			// 	fmt.Println("url : ", stats.Moves[i].Move.Url)
+			// 	url5 := stats.Moves[i].Move.Url
+			// 	res5, err := http.Get(url5)
+			// 	if err != nil {
+			// 		panic(err)
+			// 	}
+			// 	body6, err := ioutil.ReadAll(res5.Body)
+			// 	if err != nil {
+			// 		panic(err)
+			// 	}
+			// 	defer res5.Body.Close()
+			// 	if err := json.Unmarshal(body6, &stats5); err != nil {
+			// 		panic(err)
+			// 	}
+			// 	for j := 0; j < len(stats5.FalvorTextEntries); j++ {
+			// 		if stats5.FalvorTextEntries[j].Language.Name == "ja" {
+			// 			fmt.Println("text", j, " : ", stats5.FalvorTextEntries[j].FlavorText)
+			// 			break
+			// 		}
+			// 	}
+			// }
+
 			// fmt.Println("name : ", stats.Name)
 			// fmt.Println("order : ", stats.Order)
 			// if len(stats.PastTypes) != 0 {
@@ -185,15 +187,15 @@ func ShowDatumById(c echo.Context) error {
 			// }
 			// fmt.Println("evolution_chain : ", stats2.EvolutionChain.Url)
 			// fmt.Println("evoluves_form_species : ", stats2.EvoluvesFromSpecies.Name)
-			// howManyTexts := len(stats2.FlavorTextEntries)
+			howManyTexts := len(stats2.FlavorTextEntries)
 			var texts []string
-			// for i := 0; i < howManyTexts; i++ {
-			// 	if stats2.FlavorTextEntries[i].Language.Name == "ja" {
-			// 		fmt.Println("flavor_text_entries", i+1, " : ", stats2.FlavorTextEntries[i].FlavorText)
-			// 		fmt.Println(stats2.FlavorTextEntries[i].Version.Name)
-			// 		texts = append(texts, stats2.FlavorTextEntries[i].FlavorText)
-			// 	}
-			// }
+			for i := 0; i < howManyTexts; i++ {
+				if stats2.FlavorTextEntries[i].Language.Name == "ja" {
+					fmt.Println("flavor_text_entries", i+1, " : ", stats2.FlavorTextEntries[i].FlavorText)
+					fmt.Println(stats2.FlavorTextEntries[i].Version.Name)
+					texts = append(texts, stats2.FlavorTextEntries[i].FlavorText)
+				}
+			}
 			// fmt.Println("form_descriptions : ", stats2.FormDescriptions)
 			// fmt.Println("forms_sweitchable : ", stats2.FormsSwitchable)
 			// fmt.Println("gender_rate : ", stats2.GenderRate)
