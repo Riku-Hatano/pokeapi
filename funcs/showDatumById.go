@@ -137,24 +137,25 @@ func ShowDatumById(c echo.Context) error {
 			for i := 0; i < howManyMoves; i++ {
 				fmt.Println("move : ", stats.Moves[i].Move.Name) //世代によって覚える技が違うので後で調整する(game indiceみたいな感じにやればできるかも)
 				fmt.Println("url : ", stats.Moves[i].Move.Url)
-			}
-			url5 := stats.Moves[0].Move.Url
-			res5, err := http.Get(url5)
-			if err != nil {
-				panic(err)
-			}
-			body6, err := ioutil.ReadAll(res5.Body)
-			if err != nil {
-				panic(err)
-			}
-			var stats5 structs.ResponseStatsMoves
-			defer res5.Body.Close()
-			if err := json.Unmarshal(body6, &stats5); err != nil {
-				panic(err)
-			}
-			for i := 0; i < len(stats5.FalvorTextEntries); i++ {
-				if stats5.FalvorTextEntries[i].Language.Name == "ja" {
-					fmt.Println("text", i, " : ", stats5.FalvorTextEntries[i].FlavorText)
+				url5 := stats.Moves[i].Move.Url
+				res5, err := http.Get(url5)
+				if err != nil {
+					panic(err)
+				}
+				body6, err := ioutil.ReadAll(res5.Body)
+				if err != nil {
+					panic(err)
+				}
+				defer res5.Body.Close()
+				var stats5 structs.ResponseStatsMoves
+				if err := json.Unmarshal(body6, &stats5); err != nil {
+					panic(err)
+				}
+				for j := 0; j < len(stats5.FalvorTextEntries); j++ {
+					if stats5.FalvorTextEntries[j].Language.Name == "ja" {
+						fmt.Println("text", j, " : ", stats5.FalvorTextEntries[j].FlavorText)
+						break
+					}
 				}
 			}
 			// fmt.Println("name : ", stats.Name)

@@ -89,9 +89,12 @@ type ResponseStatsMoves struct {
 		Accuracy     int `json:"accuracy"`
 		EffectChance int `json:"effect_chance"`
 		// EffectEntries
-		Power       int    `json:"power"`
-		PP          int    `json:"pp"`
-		Type        string `json:"type"`
+		Power int `json:"power"`
+		PP    int `json:"pp"`
+		Type  struct {
+			Name string `json:"name"`
+			Url  string `json:"url"`
+		} `json:"type"`
 		VesionGroup struct {
 			Name string `json:"name"`
 			Url  string `json:"url"`
