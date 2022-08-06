@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <meta charset="utf-8" http-equiv="Content-Type" content="text/html">
+        <meta charset="utf-8" http-equiv="Content-Type" name="viewport" content="width=device-width,initial-scale=1">
         <link rel="stylesheet" href="css/tmpl.css">
         <title>go with html</title>
     </head>
@@ -22,18 +22,18 @@
                     <div class="backAndForth"></div>
                 </div>
                 <div id="typeContainer">
+                    {{ if .type1 }}
                     <div class="typeContainerChild">
-                        {{ if .type1 }}
                         <div class="type">{{ .type1 }}</div>
                         <img src="./imgs/typeimgs/type{{ .typeId1 }}.png" class="typeimgs">
-                        {{ end }}
                     </div>
+                    {{ end }}
+                    {{ if .type2 }}
                     <div class="typeContainerChild">
-                        {{ if .type2 }}
                         <div class="type">{{ .type2 }}</div>
                         <img src="./imgs/typeimgs/type{{ .typeId2 }}.png" class="typeimgs">
-                        {{ end }}
                     </div>
+                    {{ end }}
                 </div>
             </div>
             <div id="divParent1Child1">
