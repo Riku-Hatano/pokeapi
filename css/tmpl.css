@@ -19,13 +19,13 @@
 }
 #divParent1 {
     display: flex;
-    height: 235px;
+    height: 255px;
 }
 #picture1Container {
     display: flex;
     margin: auto;
     margin-top: 0px;
-    width: 220px;
+    width: 30vw;
 }
 #picture1 {
     margin: auto;
@@ -46,9 +46,18 @@
     display: flex;
     height: 40px;
 }
+.typeContainerChild {
+    margin: auto;
+    text-align: center;
+}
 .type {
     margin: auto;
-    background-color: gainsboro;
+    font-size: 10px;
+    /* background-color: gainsboro; */
+}
+.typeimgs {
+    width: 40px;
+    height: 40px;
 }
 .imgs1 {
     width: 40px;

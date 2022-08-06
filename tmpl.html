@@ -22,22 +22,28 @@
                     <div class="backAndForth"></div>
                 </div>
                 <div id="typeContainer">
-                    {{ if .type1 }}
-                    <div class="type">{{ .type1 }}</div>
-                    {{ end }}
-                    {{ if .type2 }}
-                    <div class="type">{{ .type2 }}</div>
-                    {{ end }}
+                    <div class="typeContainerChild">
+                        {{ if .type1 }}
+                        <div class="type">{{ .type1 }}</div>
+                        <img src="./imgs/typeimgs/type{{ .typeId1 }}.png" class="typeimgs">
+                        {{ end }}
+                    </div>
+                    <div class="typeContainerChild">
+                        {{ if .type2 }}
+                        <div class="type">{{ .type2 }}</div>
+                        <img src="./imgs/typeimgs/type{{ .typeId2 }}.png" class="typeimgs">
+                        {{ end }}
+                    </div>
                 </div>
             </div>
             <div id="divParent1Child1">
                 <h2 class="divParent1Child1Class1">{{ .pokemonNameEn }}</h2>
                 <h2 class="divParent1Child1Class1">{{ .pokemonNameJa }}</h2>
                 <h3 class="divParent1Child1Class1" id="id">図鑑No.{{ .id }}</h3>
-                <div id="divParent1Child1Id1">
+                <!-- <div id="divParent1Child1Id1">
                     <img src="./imgs/male.png" class="imgs1">
                     <img src="./imgs/female.png" class="imgs1">
-                </div>
+                </div> -->
             </div>
         </div>
         <hr>
@@ -102,16 +108,6 @@
             {{ end }}
             {{ if .text11 }}
             <p>{{ .text11 }}(ポケモン{{ .textVersion11 }}より)</p>
-            {{ end }}
-        </div>
-        <div>
-            {{ if .type1 }}
-            <p>{{ .type1 }}</p>
-            {{ end }}
-            {{ if eq .type1 "ノーマル" }}
-            {{ end }}
-            {{ if .type2 }}
-            <p>{{ .type2 }}</p>
             {{ end }}
         </div>
         <script src="./js/tmpl.js"></script>
