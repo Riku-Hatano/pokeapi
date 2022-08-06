@@ -305,40 +305,58 @@ func ShowDatumById(c echo.Context) error {
 				switch stats.Types[i].Type.Name {
 				case "normal":
 					returns2["type"+strconv.Itoa(i+1)] = "ノーマル"
+					returns2["typeId"+strconv.Itoa(i+1)] = "1"
 				case "fire":
 					returns2["type"+strconv.Itoa(i+1)] = "ほのお"
+					returns2["typeId"+strconv.Itoa(i+1)] = "2"
 				case "water":
 					returns2["type"+strconv.Itoa(i+1)] = "みず"
+					returns2["typeId"+strconv.Itoa(i+1)] = "3"
 				case "electric":
 					returns2["type"+strconv.Itoa(i+1)] = "でんき"
+					returns2["typeId"+strconv.Itoa(i+1)] = "4"
 				case "grass":
 					returns2["type"+strconv.Itoa(i+1)] = "くさ"
+					returns2["typeId"+strconv.Itoa(i+1)] = "5"
 				case "ice":
 					returns2["type"+strconv.Itoa(i+1)] = "こおり"
+					returns2["typeId"+strconv.Itoa(i+1)] = "6"
 				case "fighting":
 					returns2["type"+strconv.Itoa(i+1)] = "かくとう"
+					returns2["typeId"+strconv.Itoa(i+1)] = "7"
 				case "poison":
 					returns2["type"+strconv.Itoa(i+1)] = "どく"
+					returns2["typeId"+strconv.Itoa(i+1)] = "8"
 				case "ground":
 					returns2["type"+strconv.Itoa(i+1)] = "じめん"
+					returns2["typeId"+strconv.Itoa(i+1)] = "9"
 				case "flying":
 					returns2["type"+strconv.Itoa(i+1)] = "ひこう"
+					returns2["typeId"+strconv.Itoa(i+1)] = "10"
 				case "psychic":
 					returns2["type"+strconv.Itoa(i+1)] = "エスパー"
+					returns2["typeId"+strconv.Itoa(i+1)] = "11"
 				case "bug":
 					returns2["type"+strconv.Itoa(i+1)] = "むし"
+					returns2["typeId"+strconv.Itoa(i+1)] = "12"
 				case "rock":
 					returns2["type"+strconv.Itoa(i+1)] = "いわ"
+					returns2["typeId"+strconv.Itoa(i+1)] = "13"
 				case "ghost":
 					returns2["type"+strconv.Itoa(i+1)] = "ゴースト"
+					returns2["typeId"+strconv.Itoa(i+1)] = "14"
 				case "dragon":
 					returns2["type"+strconv.Itoa(i+1)] = "ドラゴン"
+					returns2["typeId"+strconv.Itoa(i+1)] = "15"
 				case "dark":
 					returns2["type"+strconv.Itoa(i+1)] = "あく"
+					returns2["typeId"+strconv.Itoa(i+1)] = "16"
 				case "steel":
 					returns2["type"+strconv.Itoa(i+1)] = "はがね"
+					returns2["typeId"+strconv.Itoa(i+1)] = "17"
 				case "fairy":
 					returns2["type"+strconv.Itoa(i+1)] = "フェアリー"
+					returns2["typeId"+strconv.Itoa(i+1)] = "18"
 				}
 			}
 
