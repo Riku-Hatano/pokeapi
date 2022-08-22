@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"pokemonApi2/structs"
 	"strconv"
+	"text/template"
 
 	"github.com/labstack/echo/v4"
 )
@@ -56,5 +57,8 @@ func ShowPokemon(c echo.Context) error {
 		}
 	}
 	//繰り返し処理のポケモンの情報の追加終わり
-	return c.JSON(http.StatusOK, Pokemons)
+	// return c.JSON(http.StatusOK, Pokemons)
+	w := c.Response()
+	t, _ := template.ParseFiles("main.html")
+	return t.Execute(w, "")
 }
